@@ -3,12 +3,10 @@
 2. Protocole de communication entre les clients android et le drône
 
 **Serveur**
-0. Modele
-1. Journalisation
-2. Contrôleur
-3. Vue
+- Création d'une session entre 2 clients
+- Traitement des paquets UDP
 
 **Rapport**
-0. Introduction
-1. Problématique
-2. Récit des travaux
+- Introduction
+- Problématique
+- Récit des travaux

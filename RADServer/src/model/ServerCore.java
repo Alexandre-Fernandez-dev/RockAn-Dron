@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import model.interfaces.IServerLogger;
+import controller.HandleClient;
 
 public class ServerCore extends Thread {
 	private int port;
@@ -14,7 +16,8 @@ public class ServerCore extends Thread {
 	byte[] sendData = new byte[1024];
 	
 	private boolean stop = false;
-	private IServerLogger logger = null;
+	private ServerLogger logger = new ServerLogger();
+	private Game game;
 	
 	public ServerCore(int port) {
 		this.port = port;
@@ -29,14 +32,14 @@ public class ServerCore extends Thread {
 					DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 					/* Waiting for 2 clients */
 					serverSocket.receive(receivePacket);
-					/* TODO: Logger - received data */
-					String message = new String(receivePacket.getData());
-					/* TODO: HandleClient */
+					String message = new String(receivePacket.getData(), receivePacket.getOffset(), receivePacket.getLength());
+					logger.packetReceived(receivePacket.getAddress().toString(), message);
+					new Thread(new HandleClient(receivePacket, logger)).start();
 					receivePacket.setLength(receiveData.length);
 				}
 				catch (IOException e) {
 					System.out.println("I/O error: " + e.toString());
-					/* TODO: Logger */
+					Logger.getLogger(ServerCore.class.getName()).log(Level.SEVERE, null, e);
 				}
 				
 			}
