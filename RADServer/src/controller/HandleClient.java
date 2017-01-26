@@ -3,12 +3,13 @@ package controller;
 import java.net.DatagramPacket;
 
 import model.ServerLogger;
+import model.interfaces.ServerEvents;
 import model.interfaces.ServerModelEvents;
 import view.ServerInput;
 import view.ServerOutput;
 import view.interfaces.ServerProtocol;
 
-public class HandleClient implements Runnable, ServerProtocol, ServerModelEvents {
+public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 	
 	private DatagramPacket packet;
 	byte[] receiveData = new byte[1024];
@@ -27,6 +28,20 @@ public class HandleClient implements Runnable, ServerProtocol, ServerModelEvents
 	@Override
 	public void run() {
 		
+	}
+
+	@Override
+	public void gameEnd() {
+		//so.sendgameend
+		
+	}
+
+	public ServerInput getSi() {
+		return si;
+	}
+
+	public ServerOutput getSo() {
+		return so;
 	}
 
 }

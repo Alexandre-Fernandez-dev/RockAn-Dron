@@ -16,8 +16,13 @@ public class ServerInput {
 		this.in = in;
 	}
 	
-	public void doRun() throws IOException {
-		String message;
-		
+	public boolean parseMessage(String message) {
+		String words[] = message.split(" ");
+		switch(message) {
+		case "" :
+		break;
+		}
+		return false;
 	}
+	
 }
