@@ -3,9 +3,10 @@ Entre Téléphones clients et Laptop ou Téléphone serveur :
 Protocole UDP, une partie = n clients. Besoin d'un id pour identifier les clients.
 
 Afin d'identifier les messages venant des clients, ces messages seront encapsulés dans une structure suivante :  
-Paquet = [idClient] [MESSAGE]
-NB: Si le contrôle de perte de paquet est activé, on pourra utilise celle ci à la place :
-Paquet = [nPaquet idClient] [MESSAGE]
+Paquet = [idClient] [MESSAGE]  
+
+NB: Si le contrôle de perte de paquet est activé, on pourra utilise celle ci à la place :  
+Paquet = [nPaquet idClient] [MESSAGE]  
 Où nPaquet est le numéro du paquet. Le serveur devra alors renvoyer des aquitements pour chaque paquet reçu.  
 Ainsi les paquets manquant pourront être renvoyés par le client.
 
