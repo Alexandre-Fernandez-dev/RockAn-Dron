@@ -12,9 +12,19 @@ Ainsi les paquets manquant pourront être renvoyés par le client.
 
 ### Connection :
 Client envoie
-- NEW GAME  
-Quand 2 new game reçu, création instance de jeu côté serveur
+- NEW GAME nbJouer:byte
+Création instance de jeu côté serveur
 Le serveur génère alors un identifiant aléatoire (noté id id sur cette page) pour chacun des clients
+- JOIN GAME
+Permet a un client de rejoindre la partie
+
+Serveur envoie :
+- NEW GAME OK
+- NEW GAME BAD
+Si on gère une partie a la fois. On renvoie NEW GAME BAD lorsque l'on a reçu un NEW GAME et qu'une partie est déjà lancée.
+Sinon, si on utilise des identifiants pour les différentes parties, NEW GAME BAD indique un doublon.
+- JOIN GAME BAD
+Si il n'y a plus de place dans la partie.
 
 ### Initialisation :
 Serveur envoie :
