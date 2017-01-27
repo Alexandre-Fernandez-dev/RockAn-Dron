@@ -12,42 +12,43 @@ Client envoie :
 - CONNECT pseudo:string
 Premier message envoyé au serveur.
 Serveur envoie :
-- CONNECT OK
-- CONNECT BAD
+- CONNECTOK
+- CONNECTBAD
 Renvoyé si l'indentifiant est déjà pris.
 
 ### Initialisation :
 Client envoie :
-- NEW GAME nbJouer:byte
-Création instance de jeu côté serveur
-- JOIN GAME
+- NEWGAME nbJouer:byte levelID:int levelLength:long
+Création instance de jeu côté serveur. levelid: utilisé pour que les clients reconnaissent le niveau.
+- JOINGAME
 Permet a un client de rejoindre la partie
 
 Serveur envoie :
-- NEW GAME OK
-- NEW GAME BAD
+- NEWGAME OK
+- NEWGAME BAD
 Si on gère une partie a la fois. On renvoie NEW GAME BAD lorsque l'on a reçu un NEW GAME et qu'une partie est déjà lancée.
 Sinon, si on utilise des identifiants pour les différentes parties, NEW GAME BAD indique un doublon.
-- JOIN GAME BAD
+- JOINGAME OK levelID:int
+- JOINGAME BAD
 Si il n'y a plus de place dans la partie.
 
 Serveur envoie :
-- START GAME
+- STARTGAME
 5 secondes (par exemple) avant le début de partie (par exemple). Permet au client de savoir son client.
 
 Client envoie :
-- START GAME OK
+- STARTGAMEOK
 Envoyé au bout des 5 secondes. La partie commence côté client et serveur si le message a été reçu autant de fois que de joueur.
 
 ### Partie Jeu :
 Client envoie :
-- SCORE TICK score:byte
+- SCORETICK score:byte
 Par exemple toutes les 500 ms.
 Met à jour le score du joueur côté serveur, et leur avancement relatif par rapport a la piste (si jeu musical)
 
 ### Partie Fin :
 Serveur envoie :
-- GAME END pseudoWinner:string
+- GAMEEND pseudoWinner:string
 Envoyé lorsqu'un gagnant a été décidé, plusieurs idées pour définir les règles : Plus on approche de la fin de la piste, plus le drone va avancer vers le jouer au meilleur score. Ou bien, sans prendre en compte la fin de la piste (peut finir avant, ou reboucler sur la piste mais plus vite) demande plus d'équilibrage sur le gameplay.
 
 ### Déconnection
