@@ -2,7 +2,9 @@ package controller;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.ArrayList;
 
+import model.ServerCore;
 import model.ServerLogger;
 import model.ServerModel;
 import model.game.Player;
@@ -15,15 +17,16 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 	
 	byte[] receiveData = new byte[1024];
 	byte[] sendData = new byte[1024];
-	
-	int secTillGameStart = 5;
-	
+		
 	private ServerInput si;
 	private ServerOutput so;
 	private ServerLogger logger;
 	private Client client;
 	private InetAddress address;
 	private boolean stop = false;
+	private ArrayList<String> messages;
+	private Object handlerLock = new Object();
+
 
 	public HandleClient(InetAddress inetAddress, ServerLogger logger, ServerInput si, ServerOutput so) {
 		super();
@@ -31,20 +34,38 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 		this.address = inetAddress;
 		this.si = si;
 		this.so = so;
+		this.messages = new ArrayList<String>();
+	}
+	
+	public void receiveMessage(String message) {
+		this.messages.add(0, message);
+		synchronized(handlerLock) {
+			handlerLock.notify();
+		}
+	}
+
+	public ArrayList<String> getMessages() {
+		return messages;
 	}
 
 	@Override
 	public void run() {
 		while(!stop) {
-			if(client.getMessages().size() == 0) {
+			if(this.messages.size() == 0) {
+				synchronized(handlerLock) {
 				try {
-					client.wait();
+					handlerLock.wait();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				}
 			}
-			String message = client.getMessages().get(0);
-			si.parseMessage(message);
+			String message = messages.remove(0);
+			//String[] tmessages = message.split("\n");
+			System.out.println(message.length());
+			message.replace('\n', '\0');
+			System.out.println(message.length());
+			si.parseMessage(message/*tmessages[0]*/);
 		}
 	}
 
@@ -58,7 +79,7 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 	
 	@Override
 	public void CsendConnect(String pseudo) {
-		if(ServerModel.clients.containsKey(pseudo) || ServerModel.clientHandlers.containsKey(address)) {
+		if(ServerModel.clients.containsKey(pseudo) /*|| ServerModel.clientHandlers.containsKey(address)*/) {
 			so.SsendConnectBAD();
 		} else {
 			this.client = new Client(address, new Player(pseudo));
@@ -82,10 +103,15 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 		if(ServerModel.joinGame(this.client)) {
 			so.SsendJoinGameOK(ServerModel.getGame().getLevelID());
 		} else {
-			//comme pour le moment pas de parties multiples ne plus envoyer de données a ce client.
+			//comme pour le moment pas de parties multiples ne plus envoyer de donnï¿½es a ce client.
 			ServerModel.unregisterClient(client, this);
 			so.SsendJoinGameBAD();
 		}
+	}
+	
+	@Override
+	public void CsendStartGameOK() {
+		ServerModel.receiveStartGameOK();
 	}
 	
 	@Override
@@ -104,18 +130,12 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 
 	@Override
 	public void gameFull() {
-		so.SsendStartGame(secTillGameStart);
+		so.SsendStartGame(ServerCore.secTillGameStart);//seule dÃ©pendance de servercore
 	}
 	
 	@Override
 	public void gameEnd() {
-		//so.sendgameend
-		
-	}
-
-	public void receiveMessage(String message) {
-		client.receiveMessage(message);
-		client.notify();
+		so.SsendGameEnd(ServerModel.getGame().getWinner().getPseudo());
 	}
 
 	public void stopHandler() {

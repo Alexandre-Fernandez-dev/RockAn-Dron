@@ -20,8 +20,8 @@ public interface ServerProtocol {
 	public default void CsendScoreTick(byte score){}
 	
 	//Fin
-	public default void SsendGameEnd(byte idClientWinner){}
+	public default void SsendGameEnd(String winnerUsername){}
 	
-	//Déconnection
+	//Dï¿½connection
 	public default void CsendDisconnect(){}
 }

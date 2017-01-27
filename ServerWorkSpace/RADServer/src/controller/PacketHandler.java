@@ -34,7 +34,9 @@ public class PacketHandler extends Thread {
 				Thread t = new Thread(sender);
 				t.start();
 			}
-			sender.receiveMessage(new String(p.getData()));
+			String message = new String(p.getData());
+			message.substring(0, p.getLength());
+			sender.receiveMessage(message.substring(0, p.getLength()));
 		}
 	}
 

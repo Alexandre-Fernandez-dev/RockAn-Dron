@@ -20,7 +20,7 @@ public class ServerOutput implements ServerProtocol {
 
 	public void send(String message) {
 		message += "\n";
-		DatagramPacket p = new DatagramPacket(message.getBytes(), port, clientAdress, port);
+		DatagramPacket p = new DatagramPacket(message.getBytes(), message.getBytes().length, clientAdress, port);
 		try {
 			sock.send(p);
 		} catch (IOException e) {
@@ -54,8 +54,8 @@ public class ServerOutput implements ServerProtocol {
 	}
 
 	@Override
-	public synchronized void SsendGameEnd(byte idClientWinner) {
-		send("GAMEEND " + idClientWinner);
+	public synchronized void SsendGameEnd(String winnerUsername) {
+		send("GAMEEND " + winnerUsername);
 	}
 
 }

@@ -18,8 +18,11 @@ import view.ServerOutput;
 public class ServerCore extends Thread {
 	public static int port;
 	public static DatagramSocket serverSocket;
+	public static Object serverLock = new Object();
 	byte[] receiveData = new byte[1024];
 	byte[] sendData = new byte[1024];
+	public static int secTillGameStart = 5;
+
 	
 	private boolean stop = false;
 	private ServerLogger logger = new ServerLogger();
@@ -35,16 +38,19 @@ public class ServerCore extends Thread {
 			e1.printStackTrace();
 			return;
 		}
+		ServerModel sm = new ServerModel();
 		PacketHandler p = new PacketHandler();
 		System.out.println("Server is ready!");
 		p.start();
 		while(!stop) {
 			ServerModel.deleteGame();
-			try {//peut être mettre un while avec une condition pour éviter les notify imprévus (peut arriver en JAVA)
-				//waiting for user create game.
-				serverSocket.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			synchronized(serverLock) {
+				try {//peut ï¿½tre mettre un while avec une condition pour ï¿½viter les notify imprï¿½vus (peut arriver en JAVA)
+					//waiting for end of game.
+					serverLock.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
