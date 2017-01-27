@@ -29,8 +29,8 @@ public class ServerOutput implements ServerProtocol {
 	}
 
 	@Override
-	public synchronized void SsendConnectOK(byte idClient) {
-		send("CONNECTOK " + idClient);
+	public synchronized void SsendConnectOK() {
+		send("CONNECTOK");
 	}
 
 	@Override
