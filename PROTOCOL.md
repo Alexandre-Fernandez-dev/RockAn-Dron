@@ -10,9 +10,9 @@ Ainsi les paquets manquant pourront être renvoyés par le client.
 ### Connection :
 Client envoie :
 - CONNECT pseudo:string
-Premier message envoyé au serveur, le serveur génère alors un identifiant aléatoire, idClient, pour chacun des clients, cet identifiant sera utilisé pour construire les paquets venant des clients.
+Premier message envoyé au serveur.
 Serveur envoie :
-- CONNECT OK idClient:byte
+- CONNECT OK
 - CONNECT BAD
 Renvoyé si l'indentifiant est déjà pris.
 
@@ -47,7 +47,7 @@ Met à jour le score du joueur côté serveur, et leur avancement relatif par ra
 
 ### Partie Fin :
 Serveur envoie :
-- GAME END idwinner:byte
+- GAME END pseudoWinner:string
 Envoyé lorsqu'un gagnant a été décidé, plusieurs idées pour définir les règles : Plus on approche de la fin de la piste, plus le drone va avancer vers le jouer au meilleur score. Ou bien, sans prendre en compte la fin de la piste (peut finir avant, ou reboucler sur la piste mais plus vite) demande plus d'équilibrage sur le gameplay.
 
 ### Déconnection
