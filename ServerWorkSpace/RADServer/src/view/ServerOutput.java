@@ -29,13 +29,23 @@ public class ServerOutput implements ServerProtocol {
 	}
 
 	@Override
-	public synchronized void SsendConnectOK() {
-		send("CONNECTOK");
+	public synchronized void SsendConnectOK(int idClient) {
+		send("CONNECTOK " + idClient);
 	}
 
 	@Override
 	public synchronized void SsendConnectBAD() {
 		send("CONNECTBAD");
+	}
+	
+	@Override
+	public synchronized void SsendNewGameOK() {
+		send("NEWGAMEOK");
+	}
+	
+	@Override
+	public synchronized void SsendNewGameBAD() {
+		send("NEWGAMEBAD");
 	}
 
 	@Override

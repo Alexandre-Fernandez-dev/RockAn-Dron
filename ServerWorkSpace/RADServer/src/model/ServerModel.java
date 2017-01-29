@@ -1,6 +1,7 @@
 package model;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import controller.Client;
@@ -11,11 +12,15 @@ import model.interfaces.ServerEvents;
 
 public class ServerModel {
 	static private Game game;
-	public static HashMap<InetAddress, HandleClient> clientHandlers;
+	//public static HashMap<InetAddress, HandleClient> clientHandlers;
+	public static HashMap<Integer, HandleClient> clientHandlers;
 	public static HashMap<String, Client> clients;
 	
+	static int idClients = 0;
+	
 	public ServerModel() {
-		clientHandlers = new HashMap<InetAddress, HandleClient>();
+		//clientHandlers = new HashMap<InetAddress, HandleClient>();
+		clientHandlers = new HashMap<Integer, HandleClient>();
 		clients = new HashMap<String, Client>();
 	}
 	
@@ -27,7 +32,7 @@ public class ServerModel {
 		game = new Game(nbJoueur, levelID, levelLength);
 		System.out.println("CREATE GAME");
 	}
-
+	
 	public static synchronized boolean joinGame(Client client) {
 		boolean result = game.addPlayer(client.getPlayer());
 		if(result && game.isFull())
@@ -46,14 +51,17 @@ public class ServerModel {
 	}
 
 	public static synchronized void registerClient(Client client, HandleClient handleClient) {
-		clientHandlers.put(handleClient.getAddress(), handleClient);
+		//clientHandlers.put(handleClient.getAddress(), handleClient);
+		handleClient.setId(idClients);
+		clientHandlers.put(idClients++, handleClient);
 		clients.put(client.getPlayer().getPseudo(), client);
 		System.out.println(client.getPlayer().getPseudo());
 		System.out.println(" REGISTERED");
 	}
 	
 	public static synchronized void unregisterClient(Client client, HandleClient handleClient) {
-		clientHandlers.remove(handleClient.getAddress(), handleClient);
+		//clientHandlers.remove(handleClient.getAddress(), handleClient);
+		clientHandlers.remove(handleClient.getId(), handleClient);
 		clients.remove(client.getPlayer().getPseudo(), client);
 		System.out.println(client.getPlayer().getPseudo());
 		System.out.println(" UNREGISTERED");

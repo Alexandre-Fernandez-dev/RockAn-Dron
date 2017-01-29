@@ -26,6 +26,7 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 	private boolean stop = false;
 	private ArrayList<String> messages;
 	private Object handlerLock = new Object();
+	private int id = -1;
 
 
 	public HandleClient(InetAddress inetAddress, ServerLogger logger, ServerInput si, ServerOutput so) {
@@ -84,7 +85,7 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 		} else {
 			this.client = new Client(address, new Player(pseudo));
 			ServerModel.registerClient(client, this);
-			so.SsendConnectOK();
+			so.SsendConnectOK(this.id);
 		}
 	}
 	
@@ -92,9 +93,9 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 	public void CsendNewGame(byte nbJoueur, int levelID, long levelLength) {
 		if(!ServerModel.isGameCreated()) {
 			ServerModel.createGame(nbJoueur, levelID, levelLength);
-			so.SsendConnectOK();
+			so.SsendNewGameOK();
 		} else {
-			so.SsendConnectBAD();
+			so.SsendNewGameBAD();
 		}
 	}
 	
@@ -140,5 +141,13 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 
 	public void stopHandler() {
 		this.stop = true;
+	}
+
+	public void setId(int idClient) {
+		this.id  = idClient;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

@@ -23,20 +23,27 @@ public class PacketHandler extends Thread {
 				e.printStackTrace();
 			}
 			HandleClient sender;
-			if(ServerModel.clientHandlers.containsKey(p.getAddress())) {
-				sender = ServerModel.clientHandlers.get(p.getAddress());
+			String message = new String(p.getData());
+			message = message.substring(0, p.getLength());
+
+			if(message.charAt(0) != 'C') {
+				int fspace = message.indexOf(" ");
+				String idCli = message.substring(0, fspace);
+				System.out.println(idCli);
+				int idClient = Integer.parseInt(idCli);
+				System.out.println(idClient);
+				message = message.substring(fspace+1);
+				sender = ServerModel.clientHandlers.get(idClient);
 			} else {
-				ServerOutput so = new ServerOutput(ServerCore.serverSocket, p.getAddress(), ServerCore.port);
+				ServerOutput so = new ServerOutput(ServerCore.serverSocket, p.getAddress(), p.getPort());
 				ServerInput si = new ServerInput();
 				sender = new HandleClient(p.getAddress(), null, si, so);
 				si.init(sender);
-				ServerModel.clientHandlers.put(p.getAddress(), sender);
+				//ServerModel.clientHandlers.put(p.getAddress(), sender);
 				Thread t = new Thread(sender);
 				t.start();
 			}
-			String message = new String(p.getData());
-			message.substring(0, p.getLength());
-			sender.receiveMessage(message.substring(0, p.getLength()));
+			sender.receiveMessage(message);
 		}
 	}
 

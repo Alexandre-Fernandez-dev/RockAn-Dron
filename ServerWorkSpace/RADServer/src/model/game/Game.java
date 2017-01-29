@@ -12,7 +12,7 @@ public class Game extends Thread {
 	private int nbPlayer;
 	private int levelID;
 	private int ready = 0;
-	public Object gameLock;
+	public Object gameLock = new Object();
 	private Player winner;
 	
 	@Override
