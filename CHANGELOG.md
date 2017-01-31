@@ -1,3 +1,6 @@
+**2017/01/31**
+- Client léger Android
+
 **2017/01/24**
 - Réception paquet UDP
 
