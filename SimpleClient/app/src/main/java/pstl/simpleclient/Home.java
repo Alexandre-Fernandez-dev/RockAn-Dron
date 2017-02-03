@@ -23,6 +23,8 @@ public class Home extends AppCompatActivity {
     String strserver;
     String strport;
 
+    static int idClient = -1;
+
     DatagramSocket clientSocket;
     DatagramPacket sendPacket, receivePacket;
     InetAddress ipServer;
@@ -67,6 +69,8 @@ public class Home extends AppCompatActivity {
                                         throw new ServerException("BAD CONNECTION");
 
                                     else {
+                                        int indexSpace = str.indexOf(" ");
+                                        idClient = Integer.parseInt(str.substring(indexSpace+1, str.length()-1));
                                         Intent menu = new Intent(Home.this, Menu.class);
                                         menu.putExtra("input_username", strusername);
                                         menu.putExtra("server", strserver);

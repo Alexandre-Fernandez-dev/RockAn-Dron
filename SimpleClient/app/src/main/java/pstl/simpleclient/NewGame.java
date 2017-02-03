@@ -63,7 +63,7 @@ public class NewGame extends AppCompatActivity {
                             try {
                                 clientSocket = new DatagramSocket();
                                 ipServer = InetAddress.getByName(strserver);
-                                sendData = new String("NEWGAME "+nbP+" "+levelID+" "+length).getBytes();
+                                sendData = new String(Home.idClient + " NEWGAME "+nbP+" "+levelID+" "+length).getBytes();
                                 sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, Integer.parseInt(strport));
                                 clientSocket.send(sendPacket);
                                 receivePacket = new DatagramPacket(receiveData, receiveData.length);

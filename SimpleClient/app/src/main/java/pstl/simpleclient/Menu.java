@@ -59,7 +59,7 @@ public class Menu extends AppCompatActivity {
                         try {
                             clientSocket = new DatagramSocket();
                             ipServer = InetAddress.getByName(strserver);
-                            sendData = new String("JOINGAME").getBytes();
+                            sendData = new String(Home.idClient + " JOINGAME").getBytes();
                             sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, Integer.parseInt(strport));
                             clientSocket.send(sendPacket);
                             receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -86,7 +86,7 @@ public class Menu extends AppCompatActivity {
                                     int delay = Integer.parseInt(str.substring(str.indexOf(' ')+1));
                                     Thread.sleep(delay*1000);
 
-                                    sendData = new String("STARTGAMEOK").getBytes();
+                                    sendData = new String(Home.idClient + " STARTGAMEOK").getBytes();
                                     sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, Integer.parseInt(strport));
                                     clientSocket.send(sendPacket);
 

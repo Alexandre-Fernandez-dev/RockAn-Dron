@@ -54,7 +54,7 @@ public class InGame extends AppCompatActivity {
                             try {
                                 clientSocket = new DatagramSocket();
                                 ipServer = InetAddress.getByName(strserver);
-                                sendData = new String("SCORETICK "+score).getBytes();
+                                sendData = new String(Home.idClient + " SCORETICK "+score).getBytes();
                                 sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, Integer.parseInt(strport));
                                 clientSocket.send(sendPacket);
                             } catch (SocketException e) {
