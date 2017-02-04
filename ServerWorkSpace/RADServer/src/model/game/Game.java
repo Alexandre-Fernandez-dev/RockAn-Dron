@@ -21,6 +21,7 @@ public class Game extends Thread {
 			try {
 				Thread.sleep(ServerCore.secTillGameStart*1000);
 			} catch (InterruptedException e) {
+				System.out.println("Stop forced");
 				e.printStackTrace();
 			}
 			this.timeStarted = System.currentTimeMillis();
@@ -34,7 +35,15 @@ public class Game extends Thread {
 	}
 	
 	private void finish() {
-		gameLock.notify();
+		synchronized(gameLock) {
+			gameLock.notify();
+		}
+		
+	}
+	
+	public void stopGame() {
+		this.interrupt();
+		finish();
 	}
 
 	public Game(long levelLenght, long nbPlayer) {
@@ -56,8 +65,18 @@ public class Game extends Thread {
 		return false;
 	}
 	
+
+	public boolean removePlayer(Player player) {
+		players.remove(player);
+		return true;
+	}
+	
 	public boolean isFull() {
 		return nbPlayer==players.size();
+	}
+	
+	public boolean isEmpty() {
+		return players.size()==0;
 	}
 
 	public int getLevelID() {
@@ -90,4 +109,5 @@ public class Game extends Thread {
 	public Player getWinner() {
 		return winner;
 	}
+
 }

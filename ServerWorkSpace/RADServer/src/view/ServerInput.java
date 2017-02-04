@@ -24,15 +24,27 @@ public class ServerInput {
 				if(words.length == 2)
 					handler.CsendConnect(words[1]);
 				break;
+			case "AGLIST" :
+				if(words.length == 1)
+					handler.CaskGameList();
+				break;
+			case "AGULIST" :
+				if(words.length == 2)
+					handler.CaskGameUserList(words[1]);
+				break;
 			case "NEWGAME" :
-				if(words.length == 4) {
+				if(words.length == 5) {
 					System.out.println(words[3].length());
-					handler.CsendNewGame(Byte.parseByte(words[1]), Integer.parseInt(words[2]), Long.parseLong(words[3]));
+					handler.CsendNewGame(words[1], Byte.parseByte(words[2]), Integer.parseInt(words[3]), Long.parseLong(words[4]));
 				}
 				break;
 			case "JOINGAME" :
-				if(words.length == 1)
-					handler.CsendJoinGame();
+				if(words.length == 2)
+					handler.CsendJoinGame(words[1]);
+				break;
+			case "LEAVEGAME" :
+				if(words.length == 2)
+					handler.CsendLeaveGame(words[1]);
 				break;
 			case "STARTGAMEOK" :
 				if(words.length == 1)

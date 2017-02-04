@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Set;
 
 import view.interfaces.ServerProtocol;
 
@@ -36,6 +38,23 @@ public class ServerOutput implements ServerProtocol {
 	@Override
 	public synchronized void SsendConnectBAD() {
 		send("CONNECTBAD");
+	}
+	
+	@Override
+	public synchronized void SsendGameList(Set<String> set) {
+		StringBuilder sb = new StringBuilder("GAMELIST");
+		for(String gname : set)
+			sb.append(" " + gname);
+		send(sb.toString());
+	}
+	
+	@Override
+	public synchronized void SsendGameUserList(String game, Set<String> usernames) {
+		StringBuilder sb = new StringBuilder("GAMEULIST");
+		sb.append(" " + game);
+		for(String uname : usernames)
+			sb.append(" " + uname);
+		send(sb.toString());
 	}
 	
 	@Override

@@ -26,6 +26,8 @@ public class ServerCore extends Thread {
 	
 	private boolean stop = false;
 	private ServerLogger logger = new ServerLogger();
+	private ServerModel serverModel;
+	private PacketHandler packetHandler;
 	
 	public ServerCore(int port) {
 		this.port = port;
@@ -38,14 +40,14 @@ public class ServerCore extends Thread {
 			e1.printStackTrace();
 			return;
 		}
-		ServerModel sm = new ServerModel();
-		PacketHandler p = new PacketHandler();
+		serverModel = new ServerModel();
+		packetHandler = new PacketHandler();
 		System.out.println("Server is ready!");
-		p.start();
+		packetHandler.start();
 		while(!stop) {
-			ServerModel.deleteGame();
+			//ServerModel.deleteGame(); EST CE QUE IL NE VAUDRAIT PAS MIEUX VIRER LE WHILE ??
 			synchronized(serverLock) {
-				try {//peut �tre mettre un while avec une condition pour �viter les notify impr�vus (peut arriver en JAVA)
+				try {
 					//waiting for end of game.
 					serverLock.wait();
 				} catch (InterruptedException e) {
@@ -57,5 +59,15 @@ public class ServerCore extends Thread {
 	
 	public void stopServer() {
 		this.stop = true;
+		serverModel.stopServer();
+		packetHandler.stopServer();
+		try {
+			packetHandler.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		synchronized(serverLock) {
+			serverLock.notify();
+		}
 	}
 }

@@ -13,7 +13,7 @@ import view.ServerInput;
 import view.ServerOutput;
 import view.interfaces.ServerProtocol;
 
-public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
+public class HandleClient extends Thread implements ServerProtocol, ServerEvents {
 	
 	byte[] receiveData = new byte[1024];
 	byte[] sendData = new byte[1024];
@@ -56,6 +56,7 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 				synchronized(handlerLock) {
 				try {
 					handlerLock.wait();
+					if(stop == true) continue;
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -90,9 +91,8 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 	}
 	
 	@Override
-	public void CsendNewGame(byte nbJoueur, int levelID, long levelLength) {
-		if(!ServerModel.isGameCreated()) {
-			ServerModel.createGame(nbJoueur, levelID, levelLength);
+	public void CsendNewGame(String gameName, byte nbJoueur, int levelID, long levelLength) {
+		if(ServerModel.createGame(gameName, nbJoueur, levelID, levelLength)) {
 			so.SsendNewGameOK();
 		} else {
 			so.SsendNewGameBAD();
@@ -100,14 +100,29 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 	}
 	
 	@Override
-	public void CsendJoinGame() {
-		if(ServerModel.joinGame(this.client)) {
-			so.SsendJoinGameOK(ServerModel.getGame().getLevelID());
+	public void CsendJoinGame(String gameName) {
+		if(ServerModel.joinGame(gameName, this)) {
+			so.SsendJoinGameOK(ServerModel.games.get(gameName).getGame().getLevelID());
 		} else {
 			//comme pour le moment pas de parties multiples ne plus envoyer de donn�es a ce client.
-			ServerModel.unregisterClient(client, this);
+			//ServerModel.unregisterClient(client, this);
 			so.SsendJoinGameBAD();
 		}
+	}
+	
+	@Override
+	public void CsendLeaveGame(String gameName) {
+		ServerModel.leaveGame(gameName, this);
+	}
+	
+	@Override
+	public void CaskGameList() {
+		
+	}
+	
+	@Override
+	public void CaskGameUserList(String game) {
+		
 	}
 	
 	@Override
@@ -124,11 +139,8 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 	public void CsendDisconnect() {
 		ServerModel.unregisterClient(client, this);
 	}
-
-	public InetAddress getAddress() {
-		return address;
-	}
-
+	
+	//EVENTS
 	@Override
 	public void gameFull() {
 		so.SsendStartGame(ServerCore.secTillGameStart);//seule dépendance de servercore
@@ -138,16 +150,39 @@ public class HandleClient implements Runnable, ServerProtocol, ServerEvents {
 	public void gameEnd() {
 		so.SsendGameEnd(ServerModel.getGame().getWinner().getPseudo());
 	}
+	
+	@Override
+	public void gameListChanged() {
+		so.SsendGameList(ServerModel.games.keySet());
+	}
+	
+	@Override
+	public void gameUserListChanged(String gname) {
+		so.SsendGameUserList(gname, ServerModel.games.get(gname).clients.keySet());
+	}
+	//ENDEVENTS
+	
+	public InetAddress getAddress() {
+		return address;
+	}
 
 	public void stopHandler() {
 		this.stop = true;
+		synchronized(handlerLock) {
+			handlerLock.notify();
+		}
 	}
 
 	public void setId(int idClient) {
 		this.id  = idClient;
 	}
 
-	public int getId() {
+	public int getIdentity() {
 		return id;
 	}
+
+	public Client getClient() {
+		return client;
+	}
+
 }

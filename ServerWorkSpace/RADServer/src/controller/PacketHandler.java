@@ -20,7 +20,9 @@ public class PacketHandler extends Thread {
 			try {
 				ServerCore.serverSocket.receive(p);
 			} catch (IOException e) {
+				System.err.println("Normal Exception :");
 				e.printStackTrace();
+				continue;
 			}
 			HandleClient sender;
 			String message = new String(p.getData());
@@ -40,15 +42,15 @@ public class PacketHandler extends Thread {
 				sender = new HandleClient(p.getAddress(), null, si, so);
 				si.init(sender);
 				//ServerModel.clientHandlers.put(p.getAddress(), sender);
-				Thread t = new Thread(sender);
-				t.start();
+				sender.start();
 			}
 			sender.receiveMessage(message);
 		}
 	}
-
-	public void stop(boolean stop) {
-		this.stop = stop;
+	
+	public void stopServer() {
+		this.stop = true;
+		ServerCore.serverSocket.close();
 	}
 
 }
