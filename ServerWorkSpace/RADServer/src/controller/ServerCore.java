@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -9,9 +9,8 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import controller.Client;
-import controller.HandleClient;
-import controller.PacketHandler;
+import model.ServerLogger;
+import model.ServerModel;
 import model.game.Game;
 import view.ServerOutput;
 

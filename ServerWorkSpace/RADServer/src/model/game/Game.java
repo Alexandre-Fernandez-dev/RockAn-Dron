@@ -3,7 +3,7 @@ package model.game;
 import java.util.ArrayList;
 import java.util.Date;
 
-import model.ServerCore;
+import controller.ServerCore;
 
 public class Game extends Thread {
 	private long timeStarted;

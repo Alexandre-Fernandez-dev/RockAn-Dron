@@ -3,25 +3,25 @@ package model;
 import java.util.HashMap;
 
 import controller.Client;
-import controller.HandleClient;
+import controller.ClientHandler;
 import model.game.Game;
 import model.interfaces.ServerEvents;
 
 public class GameModel {
 
 	private Game game;
-	public HashMap<Integer, HandleClient> clientHandlers;
+	public HashMap<Integer, ClientHandler> clientHandlers;
 	public HashMap<String, Client> clients;
 	private String name;
 
 	public GameModel(Game game, String name) {
 		this.game = game;
 		this.name = name;
-		this.clientHandlers = new HashMap<Integer, HandleClient>();
+		this.clientHandlers = new HashMap<Integer, ClientHandler>();
 		this.clients = new HashMap<String, Client>();
 	}
 	
-	public synchronized boolean joinGame(HandleClient hclient) {
+	public synchronized boolean joinGame(ClientHandler hclient) {
 		boolean result = game.addPlayer(hclient.getClient().getPlayer());
 		if(result)
 			registerClient(hclient.getClient(), hclient);
@@ -31,7 +31,7 @@ public class GameModel {
 		return result;
 	}
 	
-	public boolean leaveGame(HandleClient handleClient) {
+	public boolean leaveGame(ClientHandler handleClient) {
 		boolean result = game.removePlayer(handleClient.getClient().getPlayer());
 		if(result)
 			unregisterClient(handleClient.getClient(), handleClient);
@@ -39,7 +39,7 @@ public class GameModel {
 		return result;
 	}
 	
-	public synchronized void registerClient(Client client, HandleClient handleClient) {
+	public synchronized void registerClient(Client client, ClientHandler handleClient) {
 		clientHandlers.put(handleClient.getIdentity(), handleClient);
 		clients.put(client.getPlayer().getPseudo(), client);
 		System.out.println(client.getPlayer().getPseudo());
@@ -47,7 +47,7 @@ public class GameModel {
 		notifyGameUserListChanged();
 	}
 	
-	public synchronized void unregisterClient(Client client, HandleClient handleClient) {
+	public synchronized void unregisterClient(Client client, ClientHandler handleClient) {
 		clientHandlers.remove(handleClient.getIdentity(), handleClient);
 		clients.remove(client.getPlayer().getPseudo(), client);
 		System.out.println(client.getPlayer().getPseudo());

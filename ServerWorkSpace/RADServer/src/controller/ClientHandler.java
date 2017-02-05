@@ -4,7 +4,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
-import model.ServerCore;
 import model.ServerLogger;
 import model.ServerModel;
 import model.game.Player;
@@ -13,14 +12,14 @@ import view.ServerInput;
 import view.ServerOutput;
 import view.interfaces.ServerProtocol;
 
-public class HandleClient extends Thread implements ServerProtocol, ServerEvents {
+public class ClientHandler extends Thread implements ServerProtocol, ServerEvents {
 	
 	byte[] receiveData = new byte[1024];
 	byte[] sendData = new byte[1024];
 		
 	private ServerInput si;
 	private ServerOutput so;
-	private ServerLogger logger;
+	//private ServerLogger logger;
 	private Client client;
 	private InetAddress address;
 	private boolean stop = false;
@@ -29,9 +28,9 @@ public class HandleClient extends Thread implements ServerProtocol, ServerEvents
 	private int id = -1;
 
 
-	public HandleClient(InetAddress inetAddress, ServerLogger logger, ServerInput si, ServerOutput so) {
+	public ClientHandler(InetAddress inetAddress, ServerLogger logger, ServerInput si, ServerOutput so) {
 		super();
-		this.logger = logger;
+		//this.logger = logger;
 		this.address = inetAddress;
 		this.si = si;
 		this.so = so;
@@ -153,12 +152,12 @@ public class HandleClient extends Thread implements ServerProtocol, ServerEvents
 	
 	@Override
 	public void gameListChanged() {
-		so.SsendGameList(ServerModel.games.keySet());
+		so.SsendGameList(new ArrayList<String>(ServerModel.games.keySet()));
 	}
 	
 	@Override
 	public void gameUserListChanged(String gname) {
-		so.SsendGameUserList(gname, ServerModel.games.get(gname).clients.keySet());
+		so.SsendGameUserList(gname, new ArrayList<String>(ServerModel.games.get(gname).clients.keySet()));
 	}
 	//ENDEVENTS
 	

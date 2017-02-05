@@ -5,14 +5,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-public interface ServerProtocol {
+public interface ClientProtocol {
 	//Connection :
 	public default void CsendConnect(String pseudo){}
 	public default void SsendConnectOK(int idClient){}
 	public default void SsendConnectBAD(){}
 	
 	//Gestion des parties
-	public default void SsendGameList(List<String> gameNames){}
+	public default void SsendGameList(List<String> wordList){}
 	public default void SsendGameUserList(String game, List<String> userNames){}
 	public default void CaskGameList(){}
 	public default void CaskGameUserList(String game){}

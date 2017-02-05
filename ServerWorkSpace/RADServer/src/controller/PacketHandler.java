@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
-import model.ServerCore;
 import model.ServerModel;
 import view.ServerInput;
 import view.ServerOutput;
@@ -24,7 +23,7 @@ public class PacketHandler extends Thread {
 				e.printStackTrace();
 				continue;
 			}
-			HandleClient sender;
+			ClientHandler sender;
 			String message = new String(p.getData());
 			message = message.substring(0, p.getLength());
 
@@ -39,7 +38,7 @@ public class PacketHandler extends Thread {
 			} else {
 				ServerOutput so = new ServerOutput(ServerCore.serverSocket, p.getAddress(), p.getPort());
 				ServerInput si = new ServerInput();
-				sender = new HandleClient(p.getAddress(), null, si, so);
+				sender = new ClientHandler(p.getAddress(), null, si, so);
 				si.init(sender);
 				//ServerModel.clientHandlers.put(p.getAddress(), sender);
 				sender.start();

@@ -3,14 +3,14 @@ package model;
 import java.util.HashMap;
 
 import controller.Client;
-import controller.HandleClient;
+import controller.ClientHandler;
 import model.game.Game;
 import model.interfaces.ServerEvents;
 
 public class ServerModel {
 	static private Game game;
 	//public static HashMap<InetAddress, HandleClient> clientHandlers;
-	public static HashMap<Integer, HandleClient> clientHandlers;
+	public static HashMap<Integer, ClientHandler> clientHandlers;
 	public static HashMap<String, Client> clients;
 	
 	public static HashMap<String, GameModel> games;
@@ -19,7 +19,7 @@ public class ServerModel {
 	
 	public ServerModel() {
 		//clientHandlers = new HashMap<InetAddress, HandleClient>();
-		clientHandlers = new HashMap<Integer, HandleClient>();
+		clientHandlers = new HashMap<Integer, ClientHandler>();
 		clients = new HashMap<String, Client>();
 		games = new HashMap<String, GameModel>();
 	}
@@ -37,7 +37,7 @@ public class ServerModel {
 		}
 	}
 	
-	public static synchronized boolean joinGame(String gameName, HandleClient handleClient) {
+	public static synchronized boolean joinGame(String gameName, ClientHandler handleClient) {
 		GameModel g = games.get(gameName);
 		if(g == null) {
 			return false;
@@ -47,7 +47,7 @@ public class ServerModel {
 		return result;
 	}
 	
-	public static synchronized boolean leaveGame(String gameName, HandleClient handleClient) {
+	public static synchronized boolean leaveGame(String gameName, ClientHandler handleClient) {
 		GameModel gm = games.get(gameName);
 		if(gm == null) {
 			return false;
@@ -70,7 +70,7 @@ public class ServerModel {
 		}
 	}
 
-	public static synchronized void registerClient(Client client, HandleClient handleClient) {
+	public static synchronized void registerClient(Client client, ClientHandler handleClient) {
 		handleClient.setId(idClients);
 		clientHandlers.put(idClients++, handleClient);
 		clients.put(client.getPlayer().getPseudo(), client);
@@ -78,7 +78,7 @@ public class ServerModel {
 		System.out.println(" REGISTERED");
 	}
 	
-	public static synchronized void unregisterClient(Client client, HandleClient handleClient) {
+	public static synchronized void unregisterClient(Client client, ClientHandler handleClient) {
 		//clientHandlers.remove(handleClient.getAddress(), handleClient);
 		clientHandlers.remove(handleClient.getIdentity(), handleClient);
 		clients.remove(client.getPlayer().getPseudo(), client);
@@ -110,7 +110,7 @@ public class ServerModel {
 	}
 
 	public void stopServer() {
-		for(HandleClient h : clientHandlers.values()) {
+		for(ClientHandler h : clientHandlers.values()) {
 			h.stopHandler();
 			try {
 				h.join();
