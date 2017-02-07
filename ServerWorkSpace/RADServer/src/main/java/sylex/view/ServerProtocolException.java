@@ -1,4 +1,4 @@
-package view;
+package sylex.view;
 
 import java.io.IOException;
 

@@ -1,14 +1,12 @@
-package view;
+package sylex.view;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import view.interfaces.ServerProtocol;
+import sylex.view.interfaces.ServerProtocol;
 
 public class ServerOutput implements ServerProtocol {
 	DatagramSocket sock;

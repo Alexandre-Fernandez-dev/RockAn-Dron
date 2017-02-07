@@ -1,4 +1,4 @@
-package model.interfaces;
+package sylex.model.interfaces;
 
 public interface IServerLogger {
 	public void systemMessage(String message);

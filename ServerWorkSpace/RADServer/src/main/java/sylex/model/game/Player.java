@@ -1,4 +1,4 @@
-package model.game;
+package sylex.model.game;
 
 
 public class Player {

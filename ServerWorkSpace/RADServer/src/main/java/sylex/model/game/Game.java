@@ -1,9 +1,9 @@
-package model.game;
+package sylex.model.game;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import controller.ServerCore;
+import sylex.controller.ServerCore;
 
 public class Game extends Thread {
 	private long timeStarted;

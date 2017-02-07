@@ -1,9 +1,6 @@
-package view;
+package sylex.view;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-
-import view.interfaces.ServerProtocol;
+import sylex.view.interfaces.ServerProtocol;
 
 public class ServerInput {
 	ServerProtocol handler;

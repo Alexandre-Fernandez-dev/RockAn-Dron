@@ -1,4 +1,4 @@
-package controller;
+package sylex.controller;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -9,10 +9,10 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import model.ServerLogger;
-import model.ServerModel;
-import model.game.Game;
-import view.ServerOutput;
+import sylex.model.ServerLogger;
+import sylex.model.ServerModel;
+import sylex.model.game.Game;
+import sylex.view.ServerOutput;
 
 public class ServerCore extends Thread {
 	public static int port;

@@ -1,11 +1,11 @@
-package model;
+package sylex.model;
 
 import java.util.HashMap;
 
-import controller.Client;
-import controller.ClientHandler;
-import model.game.Game;
-import model.interfaces.ServerEvents;
+import sylex.controller.Client;
+import sylex.controller.ClientHandler;
+import sylex.model.game.Game;
+import sylex.model.interfaces.ServerEvents;
 
 public class ServerModel {
 	static private Game game;

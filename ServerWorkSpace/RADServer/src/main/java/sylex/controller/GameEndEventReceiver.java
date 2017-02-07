@@ -1,8 +1,8 @@
-package controller;
+package sylex.controller;
 
-import view.interfaces.ServerProtocol;
-import model.ServerModel;
-import model.game.Game;
+import sylex.view.interfaces.ServerProtocol;
+import sylex.model.ServerModel;
+import sylex.model.game.Game;
 
 public class GameEndEventReceiver extends Thread {
 	

@@ -1,9 +1,6 @@
-package view.interfaces;
+package sylex.view.interfaces;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public interface ServerProtocol {
 	//Connection :

@@ -1,10 +1,8 @@
-package controller;
+package sylex.controller;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.HashMap;
 
-import model.game.Player;
+import sylex.model.game.Player;
 
 public class Client {
 	private InetAddress clientAdress;

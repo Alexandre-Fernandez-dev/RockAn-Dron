@@ -1,16 +1,16 @@
-package controller;
+package sylex.controller;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
-import model.ServerLogger;
-import model.ServerModel;
-import model.game.Player;
-import model.interfaces.ServerEvents;
-import view.ServerInput;
-import view.ServerOutput;
-import view.interfaces.ServerProtocol;
+import sylex.model.ServerLogger;
+import sylex.model.ServerModel;
+import sylex.model.game.Player;
+import sylex.model.interfaces.ServerEvents;
+import sylex.view.ServerInput;
+import sylex.view.ServerOutput;
+import sylex.view.interfaces.ServerProtocol;
 
 public class ClientHandler extends Thread implements ServerProtocol, ServerEvents {
 	

@@ -1,12 +1,12 @@
-package controller;
+package sylex.controller;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
-import model.ServerModel;
-import view.ServerInput;
-import view.ServerOutput;
+import sylex.model.ServerModel;
+import sylex.view.ServerInput;
+import sylex.view.ServerOutput;
 
 public class PacketHandler extends Thread {
 	private boolean stop = false;

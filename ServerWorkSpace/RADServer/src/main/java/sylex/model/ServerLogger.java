@@ -1,6 +1,6 @@
-package model;
+package sylex.model;
 
-import model.interfaces.IServerLogger;
+import sylex.model.interfaces.IServerLogger;
 
 public class ServerLogger implements IServerLogger {
 
