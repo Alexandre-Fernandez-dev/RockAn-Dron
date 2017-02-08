@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import sylex.controller.ServerCore;
+import sylex.model.ServerModel;
 
 public class Game extends Thread {
 	private long timeStarted;
@@ -14,13 +15,19 @@ public class Game extends Thread {
 	private int ready = 0;
 	public Object gameLock = new Object();
 	private Player winner;
+
+    //a retirer utilisé pour des tests
+    public int getNbPlayer() {
+        return nbPlayer;
+    }
 	
 	@Override
 	public void run() {
 		synchronized(gameLock) {
 			try {
 				Thread.sleep(ServerCore.secTillGameStart*1000);
-			} catch (InterruptedException e) {
+			    System.out.println("GAME STARTED !!!!!");
+            } catch (InterruptedException e) {
 				System.out.println("Stop forced");
 				e.printStackTrace();
 			}
@@ -35,10 +42,11 @@ public class Game extends Thread {
 	}
 	
 	private void finish() {
+        System.out.println("GAME ENDED !!!!!");
 		synchronized(gameLock) {
 			gameLock.notify();
 		}
-		
+	    ServerModel.notifyGameEnd();//TODO MODIFIER L'EVENT AFIN QU'IL CIBLE LES BONS USERS DE LA BONNE GAME ET QUE LE GAGNANT SOIT ENVOYE    
 	}
 	
 	public void stopGame() {
@@ -89,10 +97,11 @@ public class Game extends Thread {
 
 	public void incReady() {
 		this.ready++;
+        System.out.println("Ready " + ready + "/" + nbPlayer + " " + players.size());
 	}
 
 	public boolean ready() {
-		return ready==players.size();
+		return ready==nbPlayer;
 	}
 
 	public void calculateWinner() {
