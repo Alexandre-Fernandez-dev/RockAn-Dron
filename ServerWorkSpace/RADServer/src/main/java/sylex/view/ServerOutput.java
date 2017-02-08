@@ -20,7 +20,7 @@ public class ServerOutput implements ServerProtocol {
 	}
 
 	public void send(String message) {
-		message += "\n";
+		//message += "\n";
 		DatagramPacket p = new DatagramPacket(message.getBytes(), message.getBytes().length, clientAdress, port);
 		try {
 			sock.send(p);
@@ -31,6 +31,7 @@ public class ServerOutput implements ServerProtocol {
 
 	@Override
 	public synchronized void SsendConnectOK(int idClient) {
+        System.out.println("SEND CONNECT OK");
 		send("CONNECTOK " + idClient);
 	}
 

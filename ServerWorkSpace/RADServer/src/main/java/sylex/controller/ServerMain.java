@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 public class ServerMain {
 
 	public static void main(String[] args) throws IOException {
-		int port = args.length==1?Integer.parseInt(args[0]):1234;
+		int port = args.length==1?Integer.parseInt(args[0]):1235;
 		System.out.println("Initialising ServerCore");
 		ServerCore core = new ServerCore(port);
 		core.start();

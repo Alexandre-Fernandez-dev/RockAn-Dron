@@ -8,7 +8,6 @@ import sylex.model.game.Game;
 import sylex.model.interfaces.ServerEvents;
 
 public class GameModel {
-	
     private Game game;
 	public HashMap<Integer, ClientHandler> clientHandlers;
 	public HashMap<String, Client> clients;

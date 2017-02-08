@@ -38,7 +38,7 @@ public class PacketHandler extends Thread {
 			} else {
 				ServerOutput so = new ServerOutput(ServerCore.serverSocket, p.getAddress(), p.getPort());
 				ServerInput si = new ServerInput();
-				sender = new ClientHandler(p.getAddress(), null, si, so);
+				sender = new ClientHandler(p.getAddress(), null, si, so);//sdfokfgrjnf
 				si.init(sender);
 				//ServerModel.clientHandlers.put(p.getAddress(), sender);
 				sender.start();

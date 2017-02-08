@@ -84,8 +84,9 @@ public class ClientHandler extends Thread implements ServerProtocol, ServerEvent
 			so.SsendConnectBAD();
 		} else {
 			this.client = new Client(address, new Player(pseudo));
-			ServerModel.registerClient(client, this);
-			so.SsendConnectOK(this.id);
+            int id = ServerModel.registerClient(client, this);
+            so.SsendConnectOK(id);
+            so.SsendGameList(new ArrayList<String>(ServerModel.games.keySet()));
 		}
 	}
 	

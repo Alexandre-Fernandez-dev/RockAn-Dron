@@ -70,12 +70,14 @@ public class ServerModel {
 		}
 	}
 
-	public static synchronized void registerClient(Client client, ClientHandler handleClient) {
+	public static synchronized int registerClient(Client client, ClientHandler handleClient) {
+        int ret = idClients;
 		handleClient.setId(idClients);
 		clientHandlers.put(idClients++, handleClient);
 		clients.put(client.getPlayer().getPseudo(), client);
 		System.out.println(client.getPlayer().getPseudo());
 		System.out.println(" REGISTERED");
+        return ret;
 	}
 	
 	public static synchronized void unregisterClient(Client client, ClientHandler handleClient) {
