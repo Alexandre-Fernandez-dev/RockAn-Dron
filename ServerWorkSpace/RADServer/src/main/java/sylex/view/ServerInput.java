@@ -40,8 +40,8 @@ public class ServerInput {
 					handler.CsendJoinGame(words[1]);
 				break;
 			case "LEAVEGAME" :
-				if(words.length == 2)
-					handler.CsendLeaveGame(words[1]);
+				if(words.length == 1)
+					handler.CsendLeaveGame();
 				break;
 			case "STARTGAMEOK" :
 				if(words.length == 1)

@@ -21,7 +21,7 @@ public interface ServerProtocol {
 	public default void CsendJoinGame(String gameName){}
 	public default void SsendJoinGameOK(int levelid){}
 	public default void SsendJoinGameBAD(){}
-	public default void CsendLeaveGame(String gameName){}
+	public default void CsendLeaveGame(){}
 
 	public default void SsendStartGame(int nbSec){}
 	public default void CsendStartGameOK(){}

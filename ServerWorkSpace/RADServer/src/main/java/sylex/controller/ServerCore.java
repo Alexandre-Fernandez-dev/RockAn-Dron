@@ -1,30 +1,21 @@
 package sylex.controller;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import sylex.model.ServerLogger;
 import sylex.model.ServerModel;
-import sylex.model.game.Game;
-import sylex.view.ServerOutput;
 
 public class ServerCore extends Thread {
-	public static int port;
-	public static DatagramSocket serverSocket;
-	public static Object serverLock = new Object();
+	public int port;
+	public DatagramSocket serverSocket;
+	public Object serverLock = new Object();
 	byte[] receiveData = new byte[1024];
 	byte[] sendData = new byte[1024];
 	public static int secTillGameStart = 5;
 
 	
 	private boolean stop = false;
-	private ServerLogger logger = new ServerLogger();
+	//private ServerLogger logger = new ServerLogger();
 	private ServerModel serverModel;
 	private PacketHandler packetHandler;
 	
@@ -40,7 +31,7 @@ public class ServerCore extends Thread {
 			return;
 		}
 		serverModel = new ServerModel();
-		packetHandler = new PacketHandler();
+		packetHandler = new PacketHandler(serverSocket);
 		System.out.println("Server is ready!");
 		packetHandler.start();
 		while(!stop) {

@@ -1,6 +1,5 @@
 package sylex.controller;
 
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
@@ -25,6 +24,7 @@ public class ClientHandler extends Thread implements ServerProtocol, ServerEvent
 	private boolean stop = false;
 	private ArrayList<String> messages;
 	private Object handlerLock = new Object();
+    private String gameName = null;
 	private int id = -1;
 
 
@@ -84,16 +84,18 @@ public class ClientHandler extends Thread implements ServerProtocol, ServerEvent
 			so.SsendConnectBAD();
 		} else {
 			this.client = new Client(address, new Player(pseudo));
-            int id = ServerModel.registerClient(client, this);
+            id = ServerModel.registerClient(client, this);
             so.SsendConnectOK(id);
+            System.out.println("Sended ID");
             so.SsendGameList(new ArrayList<String>(ServerModel.games.keySet()));
+            System.out.println("Sended Game List");
 		}
 	}
 	
 	@Override
 	public void CsendNewGame(String gameName, byte nbJoueur, int levelID, long levelLength) {
 		if(ServerModel.createGame(gameName, nbJoueur, levelID, levelLength)) {
-			so.SsendNewGameOK();
+            so.SsendNewGameOK();
 		} else {
 			so.SsendNewGameBAD();
 		}
@@ -102,7 +104,8 @@ public class ClientHandler extends Thread implements ServerProtocol, ServerEvent
 	@Override
 	public void CsendJoinGame(String gameName) {
 		if(ServerModel.joinGame(gameName, this)) {
-			so.SsendJoinGameOK(ServerModel.games.get(gameName).getGame().getLevelID());
+            so.SsendJoinGameOK(ServerModel.games.get(gameName).getGame().getLevelID());
+            this.gameName = gameName;
 		} else {
 			//comme pour le moment pas de parties multiples ne plus envoyer de donn�es a ce client.
 			//ServerModel.unregisterClient(client, this);
@@ -111,8 +114,10 @@ public class ClientHandler extends Thread implements ServerProtocol, ServerEvent
 	}
 	
 	@Override
-	public void CsendLeaveGame(String gameName) {
-		ServerModel.leaveGame(gameName, this);
+	public void CsendLeaveGame() {
+        if(gameName != null)
+		    ServerModel.leaveGame(gameName, this);
+        this.gameName = null;
 	}
 	
 	@Override
