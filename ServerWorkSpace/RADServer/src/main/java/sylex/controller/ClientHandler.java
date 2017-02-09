@@ -144,7 +144,7 @@ public class ClientHandler extends Thread implements ServerProtocol, ServerEvent
 
     @Override
     public void CsendScoreTick(byte score) {
-        ServerModel.addScore(client, score);
+        ServerModel.addScore(gameName, client, score);
     }
 
     @Override
@@ -164,8 +164,8 @@ public class ClientHandler extends Thread implements ServerProtocol, ServerEvent
     }
 
     @Override
-    public void gameEnd() {
-        so.SsendGameEnd(ServerModel.games.get(gameName).getGame().getWinner().getPseudo());
+    public void gameEnd(String userWin) {
+        so.SsendGameEnd(userWin);
     }
 
     /*@Override

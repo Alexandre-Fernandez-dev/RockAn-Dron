@@ -5,6 +5,7 @@ import java.util.HashMap;
 import sylex.controller.Client;
 import sylex.controller.ClientHandler;
 import sylex.model.game.Game;
+import sylex.model.game.Player;
 import sylex.model.interfaces.ServerEvents;
 
 public class GameModel {
@@ -15,6 +16,7 @@ public class GameModel {
 
     public GameModel(Game game, String name) {
         this.game = game;
+        game.model = this; //peut être fusionner les deux classes GameModel et Game
         this.name = name;
         this.clientHandlers = new HashMap<Integer, ClientHandler>();
         this.clients = new HashMap<String, Client>();
@@ -56,6 +58,17 @@ public class GameModel {
       clientHandlers.values().forEach(c->c.gameUserListChanged(this.name));
       System.out.println("GAME ULIST CHANGED");
       }*/
+
+
+    public synchronized void notifyGameEnd() {
+        String nameWinner = game.getWinner().getPseudo();
+        clientHandlers.values().forEach(c->c.gameEnd(nameWinner));
+        System.out.println("GAME END");
+    }
+
+    public synchronized void addScore(Player p, byte score) {
+        game.addScore(p, score);
+    }
     
     public synchronized void addReady() {
         game.incReady();

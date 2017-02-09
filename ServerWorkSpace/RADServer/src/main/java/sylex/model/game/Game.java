@@ -2,19 +2,23 @@ package sylex.model.game;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import sylex.controller.ServerCore;
+import sylex.model.GameModel;
 import sylex.model.ServerModel;
 
 public class Game extends Thread {
 	private long timeStarted;
 	private long levelLength;
-	private ArrayList<Player> players;
+	private HashMap<Player, Integer> players;
 	private int nbPlayer;
 	private int levelID;
 	private int ready = 0;
 	public Object gameLock = new Object();
 	private Player winner;
+    public GameModel model = null;
 
     //a retirer utilisé pour des tests
     public int getNbPlayer() {
@@ -40,13 +44,13 @@ public class Game extends Thread {
 			finish();
 		}
 	}
-	
+
 	private void finish() {
         System.out.println("GAME ENDED !!!!!");
 		synchronized(gameLock) {
 			gameLock.notify();
 		}
-	    ServerModel.notifyGameEnd();//TODO MODIFIER L'EVENT AFIN QU'IL CIBLE LES BONS USERS DE LA BONNE GAME ET QUE LE GAGNANT SOIT ENVOYE    
+	    model.notifyGameEnd();//TODO MODIFIER L'EVENT AFIN QU'IL CIBLE LES BONS USERS DE LA BONNE GAME ET QUE LE GAGNANT SOIT ENVOYE    
 	}
 	
 	public void stopGame() {
@@ -59,7 +63,7 @@ public class Game extends Thread {
 	}
 	
 	public Game(byte nbJoueur, int levelID, long levelLength) {
-		players = new ArrayList<Player>();
+		players = new HashMap<Player,Integer>();
 		this.nbPlayer = nbJoueur;
 		this.levelID = levelID;
 		this.levelLength = levelLength;
@@ -67,7 +71,7 @@ public class Game extends Thread {
 
 	public boolean addPlayer(Player p) {
 		if(players.size()<nbPlayer) {
-			players.add(p);
+			players.put(p,0);
 			return true;
 		}
 		return false;
@@ -104,18 +108,24 @@ public class Game extends Thread {
 		return ready==nbPlayer;
 	}
 
-	public void calculateWinner() {
+    public void addScore(Player p, byte score) {
+        if(players.keySet().contains(p))
+            players.put(p, players.get(p)+score);
+    }
+
+	private void calculateWinner() {
 		int score = 0;
-		for(Player p : players) {
-			if(p.score > score) {
-				this.winner = p;
-				score = p.score;
+		for(Entry<Player, Integer> p : players.entrySet()) {
+			if(p.getValue() > score) {
+				this.winner = p.getKey();
+				score = p.getValue();
 			}
 		}
 		
 	}
 
 	public Player getWinner() {
+        calculateWinner();
 		return winner;
 	}
 

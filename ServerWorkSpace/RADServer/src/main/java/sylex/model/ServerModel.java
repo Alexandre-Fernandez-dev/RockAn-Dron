@@ -98,19 +98,13 @@ public class ServerModel {
         leaveGame("DEF", handleClient);
     }
 
-    public static void addScore(Client client, byte score) {//probablement pas besoin de synchroniser
-        client.getPlayer().addScore(score);
+    public static void addScore(String gameName, Client client, byte score) {//probablement pas besoin de synchroniser
+        GameModel g = games.get(gameName);
+        g.addScore(client.getPlayer(), score);
         System.out.println("SCORE OF " + client.getPlayer().getPseudo());
         System.out.println(" += " + score);
     }
 
-    public static synchronized void notifyGameEnd() {
-        //synchronized(ServerCore.serverLock) {
-        clientHandlers.values().forEach(ServerEvents::gameEnd);
-        System.out.println("GAME END");
-        //ServerCore.serverLock.notify();
-        //}
-    }
 
     /*public static synchronized void notifyGameListChanged() {
       clientHandlers.values().forEach(ServerEvents::gameListChanged);

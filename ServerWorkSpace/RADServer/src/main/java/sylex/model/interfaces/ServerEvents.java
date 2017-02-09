@@ -5,5 +5,5 @@ public interface ServerEvents {
 	public void gameListChanged();*/
     public void userListChanged();
 	public void gameReady();
-	public void gameEnd();
+	public void gameEnd(String user);
 }
