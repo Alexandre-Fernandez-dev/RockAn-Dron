@@ -12,8 +12,8 @@ public interface ClientProtocol {
 	public void SsendConnectBAD();
 	
 	//Gestion des parties
-	public void SsendGameList(List<String> wordList);
-	public void SsendGameUserList(String game, List<String> userNames);
+//	public void SsendGameList(List<String> wordList);
+	public void SsendGameUserList(/*String game, */List<String> userNames);
 	public void CaskGameList();
 	public void CaskGameUserList(String game);
 	

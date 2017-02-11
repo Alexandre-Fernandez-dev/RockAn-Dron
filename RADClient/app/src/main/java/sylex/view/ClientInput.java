@@ -37,6 +37,7 @@ public class ClientInput {
 				if(words.length == 1)
 					handler.SsendConnectBAD();
 				break;
+            /*
 			case "GAMELIST" :
 				wordList = new ArrayList(Arrays.asList(words));
 				wordList.remove(0);
@@ -58,6 +59,16 @@ public class ClientInput {
 				if(words.length == 1)
 					handler.SsendNewGameBAD();
 				break;
+            */
+            case "ULIST" :
+                if (words.length > 1) {
+                    ArrayList<String> users = new ArrayList<>();
+                    for (int i = 1; i < words.length; i++) {
+                        users.add(words[i]);
+                    }
+                    handler.SsendGameUserList(users);
+                }
+                break;
 			case "JOINGAMEOK" :
 				if(words.length == 2)
 					handler.SsendJoinGameOK(Integer.parseInt(words[1]));

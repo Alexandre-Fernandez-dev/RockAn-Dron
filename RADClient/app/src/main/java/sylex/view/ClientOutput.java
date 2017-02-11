@@ -129,13 +129,9 @@ public class ClientOutput extends Thread implements ClientProtocol {
 
 	}
 
-	@Override
-	public void SsendGameList(List<String> wordList) {
-
-	}
 
 	@Override
-	public void SsendGameUserList(String game, List<String> userNames) {
+	public void SsendGameUserList(/*String game, */List<String> userNames) {
 
 	}
 

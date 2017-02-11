@@ -6,7 +6,7 @@ package sylex.androidClient.interfaces;
 
 public interface RoomEventReceiver {
 
-    public void onGameListChanged();
+    public void onGameUserListChanged();
     public void onJoinGameOk();
     public void onJoinGameBad();
 

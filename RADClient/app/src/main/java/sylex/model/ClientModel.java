@@ -13,9 +13,9 @@ import sylex.controller.ServerHandler;
 public class ClientModel {
 	
 	public static boolean inGame = false;
-	public static ArrayList<String> games = new ArrayList<String>();
+//	public static ArrayList<String> games = new ArrayList<String>();
 	public static ArrayList<String> clientsInGame = new ArrayList<String>();
-	public static String gameName = new String("");
+//	public static String gameName = new String("");
 	public static int idClient = -1;
 	private static int idLevel = -1;
 	private static ServerHandler handler = null;
@@ -61,11 +61,11 @@ public class ClientModel {
 		//mettre a jour l'affichage
 	}
 
-	public static void updateGameList(List<String> gameList) {
-		ClientModel.games = new ArrayList<String>(gameList);
-		Log.d("D", "\n\n Received Game List : " + games.toString() + "\n\n");
+	public static void updateGameUserList(List<String> gameList) {
+		ClientModel.clientsInGame = new ArrayList<String>(gameList);
+		Log.d("D", "\n\n Received Game User List : " + clientsInGame.toString() + "\n\n");
 		if(reo != null) {//ce message peut être reçu avant la création de son receveur
-			reo.onGameListChanged();
+			reo.onGameUserListChanged();
 		} else {//le message doit être stocké jusqu'a la création du receveur
 			new Thread() {
 				public void run() {
@@ -76,7 +76,7 @@ public class ClientModel {
 							e.printStackTrace();
 						}
 					}
-					reo.onGameListChanged();
+					reo.onGameUserListChanged();
 				}
 			}.start();
 		}
@@ -94,7 +94,7 @@ public class ClientModel {
 	}
 
 	public static void updateGameUserList(String game, List<String> userList) {
-		ClientModel.gameName = game;
+//		ClientModel.gameName = game;
 		ClientModel.clientsInGame = new ArrayList<String>(userList);
 	}
 

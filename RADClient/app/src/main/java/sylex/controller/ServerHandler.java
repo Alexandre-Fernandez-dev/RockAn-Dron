@@ -88,13 +88,8 @@ public class ServerHandler extends Thread implements ClientProtocol {
 	}
 
 	@Override
-	public synchronized void SsendGameList(List<String> gameList) {
-		ClientModel.updateGameList(gameList);
-	}
-
-	@Override
-	public synchronized void SsendGameUserList(String game, List<String> userList) {
-		ClientModel.updateGameUserList(game, userList);
+	public synchronized void SsendGameUserList(/*String game, */List<String> userList) {
+		ClientModel.updateGameUserList(/*game, */userList);
 	}
 
 	@Override
