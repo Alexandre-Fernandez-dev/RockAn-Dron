@@ -73,7 +73,7 @@ public class ServerModel {
         g.addReady();
         System.out.println("RECEIVED START GAME OK");
     }
-
+    
     public static synchronized int registerClient(Client client, ClientHandler handleClient) {
         int ret = idClients;
         handleClient.setId(idClients);
