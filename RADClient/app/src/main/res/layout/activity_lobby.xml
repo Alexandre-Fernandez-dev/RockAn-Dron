@@ -75,7 +75,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="61dp"
                 android:id="@+id/buttonReady"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:onClick="onClickReady (LobbyActivity)" />
 
             <view
                 android:layout_height="wrap_content"

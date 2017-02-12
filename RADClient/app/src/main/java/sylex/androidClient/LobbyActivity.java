@@ -3,11 +3,9 @@ package sylex.androidClient;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-
-import java.util.ArrayList;
 
 import sylex.androidClient.interfaces.RoomEventReceiver;
 import sylex.model.ClientModel;
@@ -16,8 +14,6 @@ public class LobbyActivity extends AppCompatActivity implements RoomEventReceive
 
     private ListView gameUserList;
     private ArrayAdapter adapter;
-
-    int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +25,17 @@ public class LobbyActivity extends AppCompatActivity implements RoomEventReceive
         ClientModel.bindRoomEvent(this);
     }
 
+    public void onClickReady(View view) {
+        ClientModel.StartGameOK();
+    }
+
     @Override
     public void onGameUserListChanged() {
         runOnUiThread(new Runnable() {
             public void run() {
                 Log.d("D", "UPDATE USER LIST : "+ClientModel.clientsInGame.toString()+"\n\n");
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
                 adapter.clear();
                 adapter.addAll(ClientModel.clientsInGame);
-//                gameUserList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
         });

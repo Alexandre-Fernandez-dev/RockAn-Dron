@@ -53,6 +53,10 @@ public class ClientModel {
 		handler.CsendConnect(username);
 	}
 
+	public static void StartGameOK() {
+		handler.CsendStartGameOK();
+	}
+
 	//ACTIONS APPLIQUEES A LA RECEPTION DES PAQUETS :
 
 	public static void registerConnection(int idClient) {
