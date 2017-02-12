@@ -26,7 +26,7 @@
             android:layout_height="10dp" />
 
         <TextView
-            android:text="Choose your game !"
+            android:text="Lobby"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:id="@+id/textView"
@@ -49,7 +49,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="56dp"
             style="@style/Widget.AppCompat.Light.ListView.DropDown"
-            android:id="@+id/GameList">
+            android:id="@+id/GameUserList">
         </ListView>
 
         <view
@@ -71,12 +71,11 @@
                 android:layout_weight="1" />
 
             <Button
-                android:text="Create New Game"
+                android:text="Ready"
                 android:layout_width="match_parent"
                 android:layout_height="61dp"
-                android:id="@+id/buttonNewGame"
-                android:layout_weight="1"
-                android:onClick="onClickNewGame" />
+                android:id="@+id/buttonReady"
+                android:layout_weight="1" />
 
             <view
                 android:layout_height="wrap_content"
