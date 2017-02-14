@@ -15,7 +15,7 @@ public class ServerModel {
 
     public static HashMap<String, GameModel> games;
 
-    static int idClients = 0;
+    private static int idClients = 0;
 
     public ServerModel() {
         //clientHandlers = new HashMap<InetAddress, HandleClient>();
@@ -50,7 +50,6 @@ public class ServerModel {
             return false;
         }
         boolean result = g.joinGame(handleClient);
-        System.out.println(handleClient.getClient().getPlayer().getPseudo() + " JOINED GAME");
         return result;
     }
 
@@ -135,4 +134,8 @@ public class ServerModel {
             }
         }
     }
+
+	public static int getIdClients() {
+		return idClients;
+	}
 }

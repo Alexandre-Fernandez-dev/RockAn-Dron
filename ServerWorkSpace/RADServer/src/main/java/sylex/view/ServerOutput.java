@@ -22,6 +22,7 @@ public class ServerOutput implements ServerProtocol {
     public void send(String message) {
         DatagramPacket p = new DatagramPacket(message.getBytes(), message.getBytes().length, clientAdress, port);
         try {
+            System.out.println("SEND " + message + " " + p.getAddress() + " " + p.getPort());
             sock.send(p);
         } catch (IOException e) {
             e.printStackTrace();
@@ -30,7 +31,7 @@ public class ServerOutput implements ServerProtocol {
 
     @Override
     public synchronized void SsendConnectOK(int idClient) {
-        System.out.println("SEND CONNECT OK");
+        //System.out.println("SEND CONNECT OK" + sock.getInetAddress() + " " + sock.getPort());
         send("CONNECTOK " + idClient);
     }
 
@@ -81,6 +82,7 @@ public class ServerOutput implements ServerProtocol {
 
     @Override
     public synchronized void SsendUserList(List<String> usernames) {
+        //System.out.println("SEND USER LIST");
         StringBuilder sb = new StringBuilder("ULIST");
         for(String uname : usernames)
             sb.append(" " + uname);
