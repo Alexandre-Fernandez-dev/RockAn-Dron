@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import sylex.androidClient.interfaces.RoomEventReceiver;
@@ -26,6 +27,9 @@ public class LobbyActivity extends AppCompatActivity implements RoomEventReceive
     }
 
     public void onClickReady(View view) {
+        Button readyButton = (Button) findViewById(R.id.buttonReady);
+        readyButton.setEnabled(false);
+        readyButton.setText("READY OK");
         ClientModel.StartGameOK();
     }
 
@@ -34,20 +38,14 @@ public class LobbyActivity extends AppCompatActivity implements RoomEventReceive
         runOnUiThread(new Runnable() {
             public void run() {
                 Log.d("D", "UPDATE USER LIST : "+ClientModel.clientsInGame.toString()+"\n\n");
-                adapter.clear();
-                adapter.addAll(ClientModel.clientsInGame);
                 adapter.notifyDataSetChanged();
             }
         });
     }
 
-        @Override
-    public void onJoinGameOk() {
-
-    }
-
     @Override
-    public void onJoinGameBad() {
+    public void onStartGame(int nbSec) {
 
     }
+
 }

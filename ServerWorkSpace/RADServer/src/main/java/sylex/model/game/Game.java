@@ -105,7 +105,7 @@ public class Game extends Thread {
 	}
 
 	public boolean ready() {
-		return ready==nbPlayer;
+		return ready==players.size();
 	}
 
     public void addScore(Player p, byte score) {

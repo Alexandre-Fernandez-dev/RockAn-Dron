@@ -23,6 +23,7 @@ public class ClientInput {
 	}
 	
 	public boolean parseMessage(String message) {
+		Log.d("Protocol", "Received Message : \"" + message + "\"");
 		List<String> wordList;
 		String words[] = message.split(" ");
 		switch(words[0]) {

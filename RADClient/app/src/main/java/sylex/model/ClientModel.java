@@ -34,17 +34,11 @@ public class ClientModel {
 	//BIND ACTIVITY EVENTS
 	public static void bindConnectEvent(ConnectEventReceiver ceo) {
 		ClientModel.ceo = ceo;
-		//synchronized (celock) {
-		//	celock.notify();
-		//}
 	}
 
 	public static void bindRoomEvent(RoomEventReceiver reo) {
 		ClientModel.reo = reo;
 		Log.d("D", "\n\ndone\n\n");
-		synchronized (relock) {
-			relock.notify();
-		}
 	}
 
 	//ACTIONS QUI IMPLIQUENT UN ENVOI DE PAQUET :
@@ -62,27 +56,15 @@ public class ClientModel {
 	public static void registerConnection(int idClient) {
 		ClientModel.idClient = idClient;
 		ceo.onConnectOK();
-		//mettre a jour l'affichage
 	}
 
 	public static void updateGameUserList(List<String> gameList) {
-		ClientModel.clientsInGame = new ArrayList<String>(gameList);
+		ClientModel.clientsInGame.removeAll(ClientModel.clientsInGame);
+		ClientModel.clientsInGame.addAll(gameList);
 		Log.d("D", "\n\n Received Game User List : " + clientsInGame.toString() + "\n\n");
 		if(reo != null) {//ce message peut être reçu avant la création de son receveur
+			Log.d("D", "\n\n reo != null");
 			reo.onGameUserListChanged();
-		} else {//le message doit être stocké jusqu'a la création du receveur
-			new Thread() {
-				public void run() {
-					synchronized (relock) {
-						try {
-							relock.wait();
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-					reo.onGameUserListChanged();
-				}
-			}.start();
 		}
 	}
 
