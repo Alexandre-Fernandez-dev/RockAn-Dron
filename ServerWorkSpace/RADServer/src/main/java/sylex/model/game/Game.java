@@ -27,7 +27,7 @@ public class Game extends Thread {
 	
 	@Override
 	public void run() {
-		synchronized(gameLock) {
+		//synchronized(gameLock) {
 			try {
 				Thread.sleep(ServerCore.secTillGameStart*1000);
 			    System.out.println("GAME STARTED !!!!!");
@@ -42,14 +42,14 @@ public class Game extends Thread {
 				e.printStackTrace();
 			}
 			finish();
-		}
+		//}
 	}
 
 	private void finish() {
         System.out.println("GAME ENDED !!!!!");
-		synchronized(gameLock) {
+		/*synchronized(gameLock) {
 			gameLock.notify();
-		}
+		}*/
 	    model.notifyGameEnd();//TODO MODIFIER L'EVENT AFIN QU'IL CIBLE LES BONS USERS DE LA BONNE GAME ET QUE LE GAGNANT SOIT ENVOYE    
 	}
 	

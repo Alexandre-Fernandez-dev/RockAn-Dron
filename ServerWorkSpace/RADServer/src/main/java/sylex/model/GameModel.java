@@ -64,6 +64,7 @@ public class GameModel {
         String nameWinner = game.getWinner().getPseudo();
         clientHandlers.values().forEach(c->c.gameEnd(nameWinner));
         System.out.println("GAME END");
+        ServerModel.initDefaultGame();
     }
 
     public synchronized void addScore(Player p, byte score) {

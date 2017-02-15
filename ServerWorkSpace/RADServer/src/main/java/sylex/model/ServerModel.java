@@ -27,8 +27,8 @@ public class ServerModel {
 
     public static void initDefaultGame() {
         if(!games.isEmpty())
-            games.remove(0); //détruire la partie proprement
-        createGame("DEF", (byte)4, 1, 30000);
+            games.remove("DEF"); //détruire la partie "proprement"
+        createGame("DEF", (byte)4, 1, 16000);
     }
 
     public static synchronized boolean createGame(String gameName, byte nbJoueur, int levelID, long levelLength) {
@@ -60,7 +60,7 @@ public class ServerModel {
         }
         boolean result = gm.leaveGame(handleClient);
         if(gm.getGame().isEmpty()) {
-            games.remove(gameName);
+            //games.remove(gameName); PARTIE UNIQUE
             //notifyGameListChanged();
         }
         System.out.println(handleClient.getClient().getPlayer().getPseudo() + " LEAVED GAME");

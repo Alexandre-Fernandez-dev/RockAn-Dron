@@ -26,6 +26,7 @@ public class AndroidLauncher extends AndroidApplication implements GameEventRece
 		RAD rad;
 		initialize((rad = new RAD(ClientModel.nbSec, this)), config);
 		this.rad = rad;
+		ClientModel.bindServerGameEndEvent(rad);
 	}
 
 	@Override
@@ -40,6 +41,7 @@ public class AndroidLauncher extends AndroidApplication implements GameEventRece
 		intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(intent);
 		this.finish();
+		ClientModel.disconnect();
 		//Gdx.app.exit();
 	}
 

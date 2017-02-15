@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.upmc.lexteksylux.radclient.interfaces.ServerGameEndEventReceiver;
 import sylex.androidClient.interfaces.ConnectEventReceiver;
 import sylex.androidClient.interfaces.RoomEventReceiver;
 import sylex.controller.ServerHandler;
@@ -24,6 +25,7 @@ public class ClientModel {
 	//private static Object celock = new Object();
 	private static RoomEventReceiver reo;
 	private static Object relock = new Object();
+	private static ServerGameEndEventReceiver sgeo;
 	public static int nbSec;
 
 
@@ -34,6 +36,11 @@ public class ClientModel {
 	//BIND ACTIVITY EVENTS
 	public static void bindConnectEvent(ConnectEventReceiver ceo) {
 		ClientModel.ceo = ceo;
+	}
+
+
+	public static void bindServerGameEndEvent(ServerGameEndEventReceiver sgeo) {
+		ClientModel.sgeo = sgeo;
 	}
 
 	public static void bindRoomEvent(RoomEventReceiver reo) {
@@ -87,7 +94,7 @@ public class ClientModel {
 
 
 	public static void gameEnd(String winnerName) {
-		//mettre a jour l'affichage et autres
+		sgeo.onGameEnd(winnerName);
 	}
 
 	public static void updateGameUserList(String game, List<String> userList) {
@@ -125,4 +132,7 @@ public class ClientModel {
 		reo.onStartGame(nbSec);
 	}
 
+	public static void disconnect() {
+		handler.CsendDisconnect();
+	}
 }

@@ -10,9 +10,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 
 import fr.upmc.lexteksylux.radclient.interfaces.GameEventReceiver;
@@ -34,6 +38,8 @@ public class GameScreen implements Screen {
     private RADGame gameLogic;
     private Array<Rectangle> goals;
     private BitmapFont font;
+    private BitmapFont fontCenter;
+    private static GlyphLayout glyphLayout = new GlyphLayout();
     private int speed = 350;
     final RAD game;
 
@@ -47,6 +53,11 @@ public class GameScreen implements Screen {
         this.nbSecTillStart = nbSec;
         this.game = game;
         font = new BitmapFont();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("arial.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 20;
+        fontCenter = generator.generateFont(parameter);
+        //generator.dispose();
 
         goalImage = new Texture(Gdx.files.internal("goal.png"));
         goalImage_red = new Texture(Gdx.files.internal("goal_red.png"));
@@ -108,14 +119,14 @@ public class GameScreen implements Screen {
         // all drops
         batch.begin();
         batch.draw(background, 0, 0);
-        font.draw(batch, "SCORE : " + score, 10, heigth);
+        font.draw(batch, "SCORE : " + score, 10, heigth-10);
 
         if(System.currentTimeMillis() - prestart < nbSecTillStart * 1000) {
-            font.draw(batch, "STARTING IN " + (nbSecTillStart - (System.currentTimeMillis() - prestart)/1000), width/2, heigth/2);
+            glyphLayout.setText(fontCenter, "STARTING IN " + (nbSecTillStart - (System.currentTimeMillis() - prestart)/1000));
+            fontCenter.draw(batch, glyphLayout, width/2F-glyphLayout.width/2F, heigth/2F-glyphLayout.height/2F);
         } else if(started == false) {
             started = true;
             gameLogic.start();
-            font.draw(batch, "STARTED ...", width/2, heigth/2);
             spawnGoals();
         }
         if(started) {
@@ -134,6 +145,10 @@ public class GameScreen implements Screen {
                 }
                 font.draw(batch, String.valueOf(relTime), goal.x, goal.y);//String.valueOf(((RADGoal)goal).getAt()+System.currentTimeMillis()-game.getStartedAT())
             }
+        }
+        if(gameLogic.isEnded()) {
+            glyphLayout.setText(fontCenter, gameLogic.getWinner() + " WINS !");
+            fontCenter.draw(batch, glyphLayout, width / 2F - glyphLayout.width / 2F, heigth / 2F - glyphLayout.height / 2F);
         }
         batch.end();
 
@@ -170,10 +185,13 @@ public class GameScreen implements Screen {
             }
 
             if (started && System.currentTimeMillis() > gameLogic.getLevel().getLength() + gameLogic.getStartedAT()) {
-                //attendre le gameEnd
-                this.hide();
-                this.dispose();
-                sr.onGameClose();
+                if(gameLogic.isEnded()) {
+                    if (Gdx.input.isTouched()) {
+                        this.hide();
+                        this.dispose();
+                        sr.onGameClose();
+                    }
+                }
             }
         }
     }
@@ -222,11 +240,17 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         // dispose of all the native resources
+        font.dispose();
+        fontCenter.dispose();
         background.dispose();
         goalImage.dispose();
         goalImage_red.dispose();
         dropSound.dispose();
         rainMusic.dispose();
         batch.dispose();
+    }
+
+    public void onGameEnd(String winner) {
+        this.gameLogic.endGame(winner);
     }
 }
