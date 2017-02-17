@@ -1,5 +1,7 @@
 package sylex.controller;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,8 +53,9 @@ public class ServerHandler extends Thread implements ClientProtocol {
 					}
 				}
 			}
+			//if(messages.size() == 0) continue;
 			String message = messages.remove(0);
-			//String[] tmessages = message.split("\n");
+			String[] messages = message.split("\n");
 			System.out.println(message.length());
 			message.replace('\n', '\0');
 			System.out.println(message.length());
@@ -83,7 +86,9 @@ public class ServerHandler extends Thread implements ClientProtocol {
 	public synchronized void SsendConnectOK(int idClient) {
 		ClientModel.registerConnection(idClient);
 		co.setId(idClient);
-		co.CaskGameList();
+		Log.e("id", "ID = " + idClient);
+		CsendReadyReceive();
+		//co.CaskGameList();
 	}
 
 	@Override
@@ -142,6 +147,11 @@ public class ServerHandler extends Thread implements ClientProtocol {
 	@Override
 	public void CsendConnect(String pseudo) {
 		co.CsendConnect(pseudo);
+	}
+
+	@Override
+	public void CsendReadyReceive() {
+		co.CsendReadyReceive();
 	}
 
 	@Override

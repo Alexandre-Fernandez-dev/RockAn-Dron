@@ -21,6 +21,10 @@ public class ServerInput {
                 if(words.length == 2)
                     handler.CsendConnect(words[1]);
                 break;
+            case "READYRECEIVE" :
+                if(words.length == 1)
+                    handler.CsendReadyReceive();
+                break;
                 /*case "AGLIST" :
                   if(words.length == 1)
                   handler.CaskGameList();

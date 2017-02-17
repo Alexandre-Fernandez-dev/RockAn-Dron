@@ -6,6 +6,7 @@ public interface ServerProtocol {
     //Connection :
     public default void CsendConnect(String pseudo){}
     public default void SsendConnectOK(int idClient){}
+    public default void CsendReadyReceive(){}
     public default void SsendConnectBAD(){}
 
     //Gestion des parties

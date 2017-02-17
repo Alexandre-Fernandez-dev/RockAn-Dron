@@ -26,6 +26,7 @@ public class ClientHandler extends Thread implements ServerProtocol, ServerEvent
     private Object handlerLock = new Object();
     private String gameName = "DEF";
     private int id = -1;
+	private boolean readyReceived = false;
 
 
     public ClientHandler(InetAddress inetAddress, ServerLogger logger, ServerInput si, ServerOutput so) {
@@ -77,19 +78,60 @@ public class ClientHandler extends Thread implements ServerProtocol, ServerEvent
     public ServerOutput getSo() {
         return so;
     }
+    
+    @Override
+    public void CsendReadyReceive() {
+    	synchronized(this) {
+    		this.readyReceived  = true;
+			System.out.println("RECEIVED ANSWER");
+    		this.notify();
+    	}
+    }
+    
+    public void waitForClientReadyReceive() {
+    	synchronized(this) {
+    		try {
+    			int i = 0;
+    			while(!readyReceived && i<=3) {
+					this.wait(300);
+					if(!readyReceived) {
+						so.SsendConnectOK(id);
+						System.out.println("CLIENT DON'T ANSWER !!!! " + i+1);
+					}
+					i++;
+    			}
+    			if(readyReceived)
+					System.out.println("CLIENT ANSWERED");
+    			else {
+					System.out.println("CLIENT DIDN'T ANSWERED MULTIPLE TIMES, DELETING IT");
+    				ServerModel.unregisterClient(client, this);
+    				this.stopHandler();
+    			}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+    }
 
     @Override
     public void CsendConnect(String pseudo) {
         if(ServerModel.clients.containsKey(pseudo)) {
             so.SsendConnectBAD();
         } else {
-            this.client = new Client(address, new Player(pseudo));
-            so.SsendConnectOK(ServerModel.getIdClients());
-            ServerModel.registerClient(client, this);
-            System.out.println("Sended ID");
-            //so.SsendGameList(new ArrayList<String>(ServerModel.games.keySet()));
-            //so.SsendUserList(new ArrayList<String>(ServerModel.clients.keySet()));
-            System.out.println("Sended Game List");
+        	ClientHandler thishandler = this;
+        	new Thread() {
+        		public void run() {
+		            client = new Client(address, new Player(pseudo));
+		            id = ServerModel.getIdClients();
+		            so.SsendConnectOK(ServerModel.getIdClients());
+		            ServerModel.registerClient(client, thishandler);
+		            waitForClientReadyReceive();
+		            System.out.println("Sended ID");
+		            //so.SsendGameList(new ArrayList<String>(ServerModel.games.keySet()));
+		            //so.SsendUserList(new ArrayList<String>(ServerModel.clients.keySet()));
+		            System.out.println("Sended Game List");
+        		}
+        	}.start();
         }
     }
     /*

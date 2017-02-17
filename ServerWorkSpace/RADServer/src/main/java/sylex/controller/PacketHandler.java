@@ -48,7 +48,12 @@ public class PacketHandler extends Thread {
                 //ServerModel.clientHandlers.put(p.getAddress(), sender);
                 sender.start();
             }
+            try {
             sender.receiveMessage(message);
+            }catch(Exception e) {
+            	System.out.println(message);
+            	e.printStackTrace();
+            }
         }
     }
 

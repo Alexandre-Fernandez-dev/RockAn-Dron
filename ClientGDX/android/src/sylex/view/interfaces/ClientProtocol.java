@@ -6,6 +6,7 @@ public interface ClientProtocol {
 	//Connection :
 	public void CsendConnect(String pseudo);
 	public void SsendConnectOK(int idClient);
+	public void CsendReadyReceive();
 	public void SsendConnectBAD();
 	
 	//Gestion des parties

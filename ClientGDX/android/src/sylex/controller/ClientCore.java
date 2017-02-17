@@ -44,7 +44,7 @@ public class ClientCore extends Thread {
 	public void run() {
 		System.out.println("Server is ready!");
 		serverHandler.start();
-		
+
 		while(!stop) {
 			DatagramPacket p = new DatagramPacket(buf, buf.length);
 			try {

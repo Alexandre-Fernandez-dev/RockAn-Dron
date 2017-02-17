@@ -1,5 +1,7 @@
 package sylex.view;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -76,6 +78,12 @@ public class ClientOutput extends Thread implements ClientProtocol {
 	@Override
 	public synchronized void CsendConnect(String userName) {
 		sendMessage("CONNECT " + userName);
+	}
+
+	@Override
+	public synchronized void CsendReadyReceive() {
+		Log.e("E", "READYRECEIVE");
+		sendMessage(id + " READYRECEIVE");
 	}
 
 	@Override
