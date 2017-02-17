@@ -9,45 +9,45 @@ Ainsi les paquets manquant pourront être renvoyés par le client.
 
 ### Connection :
 Client envoie :
-- CONNECT pseudo:string
+- CONNECT pseudo:string  
 Premier message envoyé au serveur.
 Serveur envoie :
 - CONNECTOK  
   S'il reçoit ce message ce cas Client envoie :
   - READYRECEIVE Celà permet au serveur d'attendre que le client ait bien initialisé sa socket (s'il ne reçoit pas ce message il renvoie le CONNECTOK et au bout de 4 tentatives il supprime le client)
-- CONNECTBAD
+- CONNECTBAD  
 Renvoyé si l'indentifiant est déjà pris.
 
 ### Initialisation/gestion de la partie :
 Client envoie :
-- AULIST
+- AULIST  
 Demande au serveur la liste des utilisateurs
 
 Serveur envoie :
-- ULIST nom1 nom2 ...
+- ULIST nom1 nom2 ...  
 Renvoie la liste des utilisateurs au client
 
 Client envoie :
 - STARTGAMEOK
 
 Serveur envoie :
-- STARTGAME nbsec:int
+- STARTGAME nbsec:int  
 Envoyé quand tout les clients de la partie ont envoyé STARTGAMEOK. La partie commence pour le client et le serveur au bout des nbSec
 
 ### Partie Jeu :
 Client envoie :
-- SCORETICK score:byte
+- SCORETICK score:byte  
 Par exemple toutes les 500 ms.
 Met à jour le score du joueur côté serveur, et leur avancement relatif par rapport a la piste (si jeu musical)
 
 ### Partie Fin :
 Serveur envoie :
-- GAMEEND pseudoWinner:string
+- GAMEEND pseudoWinner:string  
 Envoyé lorsqu'un gagnant a été décidé, plusieurs idées pour définir les règles : Plus on approche de la fin de la piste, plus le drone va avancer vers le jouer au meilleur score. Ou bien, sans prendre en compte la fin de la piste (peut finir avant, ou reboucler sur la piste mais plus vite) demande plus d'équilibrage sur le gameplay.
 
 ### Déconnection
 Client envoie :
-- DISCONNECT
+- DISCONNECT  
 Si jamais le client n'est pas déconnecté, nettoyer les clients qui ne jouent plus depuis un certain temps.
 
 ## Idées d'extentions possibles :
