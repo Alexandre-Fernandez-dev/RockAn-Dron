@@ -10,7 +10,8 @@ Ainsi les paquets manquant pourront être renvoyés par le client.
 ### Connection :
 Client envoie :
 - CONNECT pseudo:string  
-Premier message envoyé au serveur.
+Premier message envoyé au serveur.  
+
 Serveur envoie :
 - CONNECTOK  
   S'il reçoit ce message ce cas Client envoie :
