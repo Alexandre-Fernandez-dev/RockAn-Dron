@@ -12,33 +12,27 @@ Client envoie :
 - CONNECT pseudo:string
 Premier message envoyé au serveur.
 Serveur envoie :
-- CONNECTOK
+- CONNECTOK  
+  S'il reçoit ce message ce cas Client envoie :
+  - READYRECEIVE Celà permet au serveur d'attendre que le client ait bien initialisé sa socket (s'il ne reçoit pas ce message il renvoie le CONNECTOK et au bout de 4 tentatives il supprime le client)
 - CONNECTBAD
 Renvoyé si l'indentifiant est déjà pris.
 
-### Initialisation :
+### Initialisation/gestion de la partie :
 Client envoie :
-- NEWGAME nbJouer:byte levelID:int levelLength:long
-Création instance de jeu côté serveur. levelid: utilisé pour que les clients reconnaissent le niveau.
-- JOINGAME
-Permet a un client de rejoindre la partie
+- AULIST
+Demande au serveur la liste des utilisateurs
 
 Serveur envoie :
-- NEWGAME OK
-- NEWGAME BAD
-Si on gère une partie a la fois. On renvoie NEW GAME BAD lorsque l'on a reçu un NEW GAME et qu'une partie est déjà lancée.
-Sinon, si on utilise des identifiants pour les différentes parties, NEW GAME BAD indique un doublon.
-- JOINGAME OK levelID:int
-- JOINGAME BAD
-Si il n'y a plus de place dans la partie.
-
-Serveur envoie :
-- STARTGAME
-5 secondes (par exemple) avant le début de partie (par exemple). Permet au client de savoir son client.
+- ULIST nom1 nom2 ...
+Renvoie la liste des utilisateurs au client
 
 Client envoie :
 - STARTGAMEOK
-Envoyé au bout des 5 secondes. La partie commence côté client et serveur si le message a été reçu autant de fois que de joueur.
+
+Serveur envoie :
+- STARTGAME nbsec:int
+Envoyé quand tout les clients de la partie ont envoyé STARTGAMEOK. La partie commence pour le client et le serveur au bout des nbSec
 
 ### Partie Jeu :
 Client envoie :
