@@ -92,8 +92,8 @@ public class ClientHandler extends Thread implements ServerProtocol, ServerEvent
     	synchronized(this) {
     		try {
     			int i = 0;
-    			while(!readyReceived && i<=3) {
-					this.wait(300);
+    			while(!readyReceived && i<=10) {
+					this.wait(1000);
 					if(!readyReceived) {
 						so.SsendConnectOK(id);
 						System.out.println("CLIENT DON'T ANSWER !!!! " + i+1);

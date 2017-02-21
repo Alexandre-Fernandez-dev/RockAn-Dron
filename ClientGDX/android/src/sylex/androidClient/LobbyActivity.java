@@ -37,6 +37,14 @@ public class LobbyActivity extends AppCompatActivity implements RoomEventReceive
     }
 
     @Override
+    public void onBackPressed() {
+        ClientModel.disconnect();
+        Intent intent = new Intent(this, ConnectActivity.class);
+        startActivity(intent);
+        this.finish();
+    }
+
+    @Override
     public void onGameUserListChanged() {
         runOnUiThread(new Runnable() {
             public void run() {
@@ -51,6 +59,7 @@ public class LobbyActivity extends AppCompatActivity implements RoomEventReceive
         Log.d("D", "RECEIVED START GAME :D");
         Intent intent = new Intent(this, AndroidLauncher.class);
         startActivity(intent);
+        this.finish();
     }
 
 }

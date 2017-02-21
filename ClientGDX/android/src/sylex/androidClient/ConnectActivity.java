@@ -40,15 +40,14 @@ public class ConnectActivity extends AppCompatActivity implements ConnectEventRe
         }
         ClientCore.start();
         String uname = nameText.getText().toString();
-        /*try {
+        try {
             synchronized (ClientCore.serverLock) {
                 ClientCore.serverLock.wait();
             }
             Log.d("D", "Input ready");
-            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
         ClientModel.init();
         ClientModel.Connect(uname);
     }
@@ -58,6 +57,7 @@ public class ConnectActivity extends AppCompatActivity implements ConnectEventRe
         Log.d("D", "CONNECT OK ACTIVITY");
         Intent intent = new Intent(this, LobbyActivity.class);
         startActivity(intent);
+        this.finish();
     }
 
     @Override

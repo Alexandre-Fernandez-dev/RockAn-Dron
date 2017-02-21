@@ -45,5 +45,12 @@ public class AndroidLauncher extends AndroidApplication implements GameEventRece
 		//Gdx.app.exit();
 	}
 
+	@Override
+	public void onBackPressed() {
+		ClientModel.disconnect();
+		this.finish(); 
+	}
+
+
 
 }
