@@ -1,2 +1,13 @@
-\chapter{Contexte}
-Il va principalement s'agir dans ce projet de tester et faire des expérimentations sur un drone. En ce sens, bien qu'on ait défini des objectifs, le résultat final n'est pas connu à l'avance; un poster de présentation et vidéo clip de ce qui aura été réalisé est toutefois prévu. Le gros enjeu du projet sera de pouvoir manipuler le drone à l'aide
+\chapter{Enjeu}
+Il va principalement s'agir dans ce projet de faire des expérimentations sur un drone. En ce sens, bien qu'on ait défini des objectifs, le produit final a été constamment redéfini selon les possibilités qui s'offrent à nous; un poster de présentation et vidéo clip de ce qui aura été réalisé est toutefois prévu. Le gros enjeu du projet sera de pouvoir manipuler le drone à l'aide du kit de développement logiciel\footnote{SDK : Software Development Kit} fourni par le constructeur; le modèle du drone utilisé est Parrot BEBOP 2\footnote{\url{https://www.parrot.com/fr/Drones/Parrot-bebop-2}}.
+
+\paragraph{}
+Nous avons découpé la phase de développement en 3 grandes parties que nous présenterons plus en détails dans ce rapport :
+\begin{enumerate}
+\item Développement du jeu (client)
+\item Communication client - serveur
+\item Communication serveur - drone
+\end{enumerate}
+
+\paragraph{}
+Sommairement, nous allons développer un environnement dit client-serveur. En effet, les joueurs, à partir de leur application mobile, représentent les clients et se connecteront à un serveur hébergé sur un ordinateur dont le rôle sera de centraliser les scores des joueurs. A partir de ces données, le serveur communiquera avec le drone pour le piloter vers l'un des joueurs. 
