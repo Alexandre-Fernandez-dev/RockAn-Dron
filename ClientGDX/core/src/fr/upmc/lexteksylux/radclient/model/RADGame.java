@@ -8,6 +8,8 @@ public class RADGame {
 
     private RADLevel level;
     private long startedAT;
+    private boolean ended = false;
+    private String winner;
 
     public RADGame() {
         level = new RADLevel("level1.txt");
@@ -24,5 +26,18 @@ public class RADGame {
 
     public long getStartedAT() {
         return startedAT;
+    }
+
+    public void endGame(String win) {
+        ended = true;
+        winner = win;
+    }
+
+    public boolean isEnded() {
+        return ended;
+    }
+
+    public String getWinner() {
+        return winner;
     }
 }

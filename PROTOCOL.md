@@ -2,58 +2,51 @@
 Entre Téléphones clients et Laptop ou Téléphone serveur :  
 Protocole UDP, une partie = n clients. Besoin d'un id pour identifier les clients.
 
-Si on souhaite contrôler la perte de paquet, les messages seront encapsulés dans la structure suivante :  
+Pour identifier d'où proviens les paquets tout les message (sauf le premier message "CONNECT pseudo") seront structurés par le client comme ceci :  
 Paquet = [idClient] [MESSAGE]
-Où nPaquet est le numéro du paquet. Le serveur devra alors renvoyer des aquitements pour chaque paquet reçu.  
-Ainsi les paquets manquant pourront être renvoyés par le client.
 
 ### Connection :
 Client envoie :
-- CONNECT pseudo:string
-Premier message envoyé au serveur.
+- CONNECT pseudo:string  
+Premier message envoyé au serveur.  
+
 Serveur envoie :
-- CONNECTOK
-- CONNECTBAD
+- CONNECTOK  
+  S'il reçoit ce message ce cas Client envoie :
+  - READYRECEIVE Celà permet au serveur d'attendre que le client ait bien initialisé sa socket (s'il ne reçoit pas ce message il renvoie le CONNECTOK et au bout de 4 tentatives il supprime le client)
+- CONNECTBAD  
 Renvoyé si l'indentifiant est déjà pris.
 
-### Initialisation :
+### Initialisation/gestion de la partie :
 Client envoie :
-- NEWGAME nbJouer:byte levelID:int levelLength:long
-Création instance de jeu côté serveur. levelid: utilisé pour que les clients reconnaissent le niveau.
-- JOINGAME
-Permet a un client de rejoindre la partie
+- AULIST  
+Demande au serveur la liste des utilisateurs
 
 Serveur envoie :
-- NEWGAME OK
-- NEWGAME BAD
-Si on gère une partie a la fois. On renvoie NEW GAME BAD lorsque l'on a reçu un NEW GAME et qu'une partie est déjà lancée.
-Sinon, si on utilise des identifiants pour les différentes parties, NEW GAME BAD indique un doublon.
-- JOINGAME OK levelID:int
-- JOINGAME BAD
-Si il n'y a plus de place dans la partie.
-
-Serveur envoie :
-- STARTGAME
-5 secondes (par exemple) avant le début de partie (par exemple). Permet au client de savoir son client.
+- ULIST nom1 nom2 ...  
+Renvoie la liste des utilisateurs au client
 
 Client envoie :
 - STARTGAMEOK
-Envoyé au bout des 5 secondes. La partie commence côté client et serveur si le message a été reçu autant de fois que de joueur.
+
+Serveur envoie :
+- STARTGAME nbsec:int  
+Envoyé quand tout les clients de la partie ont envoyé STARTGAMEOK. La partie commence pour le client et le serveur au bout des nbSec
 
 ### Partie Jeu :
 Client envoie :
-- SCORETICK score:byte
+- SCORETICK score:byte  
 Par exemple toutes les 500 ms.
 Met à jour le score du joueur côté serveur, et leur avancement relatif par rapport a la piste (si jeu musical)
 
 ### Partie Fin :
 Serveur envoie :
-- GAMEEND pseudoWinner:string
+- GAMEEND pseudoWinner:string  
 Envoyé lorsqu'un gagnant a été décidé, plusieurs idées pour définir les règles : Plus on approche de la fin de la piste, plus le drone va avancer vers le jouer au meilleur score. Ou bien, sans prendre en compte la fin de la piste (peut finir avant, ou reboucler sur la piste mais plus vite) demande plus d'équilibrage sur le gameplay.
 
 ### Déconnection
 Client envoie :
-- DISCONNECT
+- DISCONNECT  
 Si jamais le client n'est pas déconnecté, nettoyer les clients qui ne jouent plus depuis un certain temps.
 
 ## Idées d'extentions possibles :

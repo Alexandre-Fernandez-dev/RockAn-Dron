@@ -1,0 +1,68 @@
+\chapter{Client - Serveur}
+
+La première chose qu'il fallait faire était de mettre en place une architecture client-serveur le plus rapidement possible et établir un protocole de communication. Pour des raisons de simplicité nous avons opté pour un protocole textuel, dont la définition est la suivante :
+
+\paragraph{}
+Pour identifier d'où proviens les paquets tout les message (sauf le premier message "CONNECT pseudo") seront structurés par le client comme ceci :
+\begin{verbatim}Paquet = [idClient] [MESSAGE]\end{verbatim}
+
+\begin{itemize}
+\item{\textbf{Connection} :}
+
+Client envoie :
+\begin{itemize}
+\item{\begin{verbatim}CONNECT pseudo:string\end{verbatim}
+Premier message envoyé au serveur.}
+\end{itemize}
+Serveur envoie :
+\begin{itemize}
+\item{\begin{verbatim}CONNECTOK\end{verbatim}
+S'il reçoit ce message ce cas Client envoie :
+READYRECEIVE Cela permet au serveur d'attendre que le client ait bien initialisé sa socket (s'il ne reçoit pas ce message il renvoie le CONNECTOK et au bout de 4 tentatives il supprime le client)}
+\item{CONNECTBAD
+Renvoyé si l'indentifiant est déjà pris.}
+\end{itemize}
+
+\item{\textbf{Initialisation/gestion de la partie} :}
+
+Client envoie :
+\begin{itemize}
+\item{\begin{verbatim}AULIST\end{verbatim}
+Demande au serveur la liste des utilisateurs}
+\end{itemize}
+Serveur envoie :
+\begin{itemize}
+\item{\begin{verbatim}ULIST nom1 nom2 ...\end{verbatim}}
+Renvoie la liste des utilisateurs au client
+\end{itemize}
+Client envoie :
+\begin{itemize}
+\item{\begin{verbatim}STARTGAMEOK\end{verbatim}}
+\end{itemize}
+Serveur envoie :
+\begin{itemize}
+\item{\begin{verbatim}STARTGAME nbsec:int\end{verbatim}
+Envoyé quand tout les clients de la partie ont envoyé STARTGAMEOK. La partie commence pour le client et le serveur au bout des nbSec}
+\end{itemize}
+\item{\textbf{Partie Jeu} :}
+
+Client envoie :
+\begin{itemize}
+\item{\begin{verbatim}SCORETICK score:byte\end{verbatim}
+Par exemple toutes les 500 ms. Met à jour le score du joueur côté serveur, et leur avancement relatif par rapport a la piste (si jeu musical)}
+\end{itemize}
+
+\item{\textbf{Partie Fin} :}
+
+Serveur envoie :
+\begin{itemize}
+\item{\begin{verbatim}GAMEEND pseudoWinner:string\end{verbatim}
+Envoyé lorsqu'un gagnant a été décidé, plusieurs idées pour définir les règles : Plus on approche de la fin de la piste, plus le drone va avancer vers le jouer au meilleur score. Ou bien, sans prendre en compte la fin de la piste (peut finir avant, ou reboucler sur la piste mais plus vite) demande plus d'équilibrage sur le gameplay.}
+Déconnection
+\end{itemize}
+Client envoie :
+\begin{itemize}
+\item{\begin{verbatim}DISCONNECT\end{verbatim}
+Si jamais le client n'est pas déconnecté, nettoyer les clients qui ne jouent plus depuis un certain temps.}
+\end{itemize}
+\end{itemize}
