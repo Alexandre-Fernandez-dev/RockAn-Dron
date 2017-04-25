@@ -7,3 +7,15 @@
 \usepackage{listings}
 \usepackage{hyperref}
 \usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{Rapport PSTL : Jeu de drones}
+\fancyhead[R]{\thepage}
+\cfoot{}
+
+\usepackage{afterpage}
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage
+}
