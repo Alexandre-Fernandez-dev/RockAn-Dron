@@ -1,11 +1,24 @@
 \subsection{Sujet}
-Nous présentons ci-dessous le sujet du projet tel qu'il est décrit aux étudiants lors de la sélection :
+
+Il va s'agir dans ce projet STL d'étudier la programmation sur les drones dans le cadre des activités robotiques du M2 STL dont les réalisations reposent sur des robots terrestres. Ce projet est donc un moyen d'investigation sur les possibilités offertes par un robot aérien pour un éventuel changement de support robotique.
 
 \paragraph{}
-Dans le cadre des activités robotiques au sein du M2 STL, nous aurions besoin d’explorer la programmation sur les drones. A l’heure actuelle, toutes les réalisations robotiques du M2 STL se basent sur des plateformes mobiles terrestres. Il est souhaitable d’explorer d’autres possibilités de support. Nous proposons de nous attaquer à ce projet sous un angle "Kid games", en récoltant des données de jeux multi-joueurs et en envoyant des commandes de déplacement selon ces données sur un drone baptisé "RockAn’Dron".
+Pour cela, le problème a été posé d'une manière ludique en demandant la réalisation d'un jeu mobile multi-joueur. Selon les données envoyées par les différents joueurs, qui seront centralisées, le drone se mettra en mouvement vers une certaine direction. L'idée de départ est la conception d'un jeu de rythme de type \textit{Guitar Hero}\footnote{Série de jeux vidéo de rythme éditée par \textit{Activision}}.
+
+\begin{figure}[h]
+\begin{center}
+\fbox{\includegraphics[scale=0.4]{images/guitar_hero.jpg}}
+\end{center}
+\end{figure}
 
 \paragraph{}
-Le premier de tels jeux serait un Tambour-Hero où de multiples joueurs jouent en parallèle un jeu de rythme sur des smartphones Android en mode "client". Les résultats de chaque joueur sont évalués dynamiquement sur chaque support "client" avant d’être synchronisés sur un smartphone Android en mode "serveur". Les évaluations de chaque joueur doivent refléter sa capacité à imiter un batteur dans un morceau de musique folle. A chaque synchronisation sur le "serveur"(de l’ordre de la seconde par exemple), le smartphone "serveur" décide le gagnant actuel et envoie le drone faire un pas vers le gagnant en question. Le jeu termine quand un des joueurs arrive à attirer vers lui le drone, porteur de gros paquets de bonbons, ou de nouilles, voire d’autres choses selon des envies du moment.
+Un environnement client-serveur va être mis en place : les joueurs, à partir de leur application mobile, représentent les clients et se connecteront à un serveur hébergé sur un ordinateur dont le rôle sera de rassembler et traiter les scores des joueurs. A partir de ces données, le serveur communiquera avec le drone pour le piloter vers l'un des joueurs. 
 
 \paragraph{}
-Ce PSTL s’adresse à des étudiants en M1 STL curieux des réalisations robotiques ouvertes au grand publique de type "tout en kit"\footnote{Les étudiants curieux des réalisations robotiques à partir de (quasiment) rien pourraient s’intéresser au PSTL "Prototype de robot mobile".}. Dépendant du niveau de chaque participant au PSTL, on commencerait avec une partie de programmation purement Android, puis, on réfléchirait à l’intégrer dans les actionneurs du drone ; ou l’inverse ; voire on ferait des choses complètement imprévues. Une réalisation, cependant, est attendue au terme du PSTL, avec poster de présentation et montage de vidéo-clip.
+Plusieurs objectifs clés ont ainsi été définis durant le projet :
+\begin{itemize}
+\item Mettre en place un client/serveur
+\item Concevoir un jeu mobile
+\item Communiquer avec le drone
+\item Commander le drone
+\end{itemize}
