@@ -1,0 +1,26 @@
+\subsection{Communications serveur-drone}
+Pour établir les communications entre le serveur et le drone, nous nous sommes portés sur les API permettant de piloter notre drone à distance. Le drone étant un \textit{Parrot BEBOP 2} nous nous sommes penchés sur la SDK ARSDK fourni par le constructeur. Cette SDK étant en cours de développement, nous avons eu des difficultés a l'utiliser. Au premier abord, il semblait y avoir une version compatible avec Java, le langage de programmation utilisé aussi bien pour le serveur que pour le client.
+
+Cependant cette version de la SDK n'était destinée qu'à développer des applications mobiles android, nous avons du considéré les natives écrites en C à la place.
+
+Pour comprendre comment utiliser ces natives, nous avons étudié l'exemple fournit : la documentation étant trop pauvre pour suffire. Cet exemple permet de piloter un drone à distance à l'aide d'un ordinateur connecté en Wi-Fi et d'avoir un retour vidéo du drone. Comme la communication entre l'appareil manipulant le drone et celui-ci est en Wi-Fi, le serveur de jeu, et, par extension, les clients android devront être connecté au réseau sans fil du drone  pour pouvoir communiquer entre eux.
+
+\paragraph{}
+Nous avons commencé par faire de courts programmes C permettant de nous connecter au drone et de le faire décoller puis avancer en ligne droite, reculer et répéter ces opérations plusieurs fois avant de se poser pour terminer. La principale difficulté pour cette partie de tests fut de trouver des moments de libre à la fac où le drone était disponible, cela nous a considérable ralenti dans notre développement.
+
+Nous avons ensuite décidé d'appeler à la place des routines C depuis Java en créant un programme supplémentaire chargé de piloter le drone et le connecter au serveur de jeu par le biais d'une \textit{socket} TCP.
+Par mesure de sécurité, nous avons décidé de mettre en place un mode de pilotage manuel sur lequel on peut basculer à tout moment.
+
+\paragraph{}
+Il nous reste à implémenter le déplacement du drone en fonction du score des joueurs et de l'avancement du niveau. L'idée en théorie serait, par exemple pour deux joueurs, de positionner le drone au centre d'un segment passant par les deux joueurs, et définir la distance par rapport au centre du segment avec l'avancement du niveau dans la direction du joueur gagnant.
+Une autre possibilité serait de décider d'une fréquence pour déplacer le drone dans la direction du joueur qui mène la partie.
+
+\begin{figure}[ht]
+\begin{center}
+\end{center}
+\caption{Schéma du déroulement d'une partie}
+\end{figure}
+
+La dernière difficulté réside en les mouvements du drone qui sont imprécis risquant de le faire dévier à cause des facteurs extérieurs ou même des moteurs. Un \textit{callback} permet de vérifier l'orientation et l'inclinaison du drone, on pourrait donc après chaque commande de mouvement, corriger la direction en fonction des données recueillies par ce \textit{callback}.
+
+On pourrait aussi borner la position du drone, grâce à ses coordonnées GPS mais celles-ci sont trop imprécises pour obtenir une gestion aussi fine qu'on voudrait avoir. Combiner des données tels que les retours moteurs, la puissance du signal Wi-Fi entre les appareils et le drone et les coordonnées GPS pourrait s'avérer utile pour prévenir des risques d'une imprécision sur la position et les mouvements du drone.
