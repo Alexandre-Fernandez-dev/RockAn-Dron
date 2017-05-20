@@ -1,26 +1,22 @@
 \subsection{Client mobile et serveur}
 Le client mobile s'occupe de la connexion au serveur et de lancer le jeu.
-Une première activité lui permet de saisir l'adresse du serveur et son nom d'utilisateur, elle permet aussi d'afficher les messages d'erreur de connexion. Une seconde activité affiche une liste d'utilisateurs connectés, autrement dit le \textit{lobby} ou \textit{salon} de la partie, ainsi que deux boutons \verb!ready! et \verb!leave!.
+Une première \textit{activité}\footnote{En développement \android{}, désigne un état de l'application mobile sur lequel une action utilisateur peut être attendue} affiche un formulaire qui permet à l'utilisateur de saisir l'adresse du serveur et son pseudonyme. Elle permet aussi d'afficher les messages d'erreur de connexion. Une seconde \textit{activité} affiche une liste d'utilisateurs connectés, que l'on appellera le \textit{lobby} ou \textit{salon de la partie}, ainsi que deux boutons : \verb!ready! et \verb!leave!.
 
 \begin{figure}
-\begin{center}
-\fbox{\includegraphics[scale=0.5]{images/jeu1.jpg}}
-\end{center}
-\caption{Connexion}
-\end{figure}
-
-\begin{figure}
-\begin{center}
-\fbox{\includegraphics[scale=0.5]{images/jeu2.jpg}}
-\end{center}
-\caption{Lobby}
+ \begin{minipage}[b]{.46\linewidth}
+  \centering\epsfig{figure=images/jeu1.jpg,width=\linewidth,scale=0.5}
+  \caption{Écran de connexion}
+ \end{minipage} \hfill
+ \begin{minipage}[b]{.46\linewidth}
+  \centering\epsfig{figure=images/jeu2.jpg,width=\linewidth,scale=0.5}
+  \caption{Salon de jeu}
+ \end{minipage}
 \end{figure}
 
 Le serveur s'occupe d'une partie : il commence par attendre que les joueurs se connectent sur le lobby de la partie. Lorsque tout les joueurs ont signalé qu'ils sont prêts, il lance la partie et notifie à tout les clients de lancer le jeu.
 
 Un seul niveau prédéfini de longueur fixe est disponible pour le moment. Lorsque les joueurs atteignent un objectif, en le touchant au bon moment, leur client envoie un message indiquant le score qu'ils ont obtenu. Le serveur met donc à jour le score des différents joueurs et, lorsque le temps imparti est écoulé, notifie les clients que la partie est terminée et leur indique le gagnant.
 
-Pour implémenter ces communications nous avons utilisé le protocole \verb!UDP!. Une difficulté rencontrée sur cette partie fût que le message permettant au serveur de notifier le client que sa connexion est acceptée et de lui octroyer son numéro de communication (permettant d'identifier le client à l'origine du message reçu), n'était pas reçu dans 100 \% des cas. Plusieurs séances de tests ne posèrent aucuns problèmes tandis que, d'autres fois, la connexion échouait côté client, laissant un \og client fantôme \fg{} sur le serveur.
+Pour implémenter ces communications nous avons considéré l'utilisation du protocole \verb!UDP!. Une difficulté rencontrée sur cette partie fut que le message permettant au serveur de notifier le client que sa connexion est acceptée pour lui attribuer un numéro de communication (permettant d'identifier le client à l'origine d'un message), n'était pas systématiquement reçu. 
 
-L'origine de ce problème n'a pas pu être identifié à ce jour et n'est remarqué que sur des communications entre des appareils android et un ordinateur.
-Il peut être corrigé en passant par des communications \verb!TCP! qui sont protégées contre la perte de paquets et les erreurs de transmission, permettant ainsi de s'abstraire de l'identifiant des clients, car les communications côté serveur dans ce cas seraient distribuées sur plusieurs \textit{socket}.
+De ce fait, nous avons décidé qu'il valait mieux, de par la simplicité du jeu mobile et le fait qu'il était important de maintenir une connexion entre les joueurs et le serveur, adopter le protocole \verb!TCP!, qui est protégé contre la perte de paquets et les erreurs de transmission, permettant ainsi de s'abstraire de l'identifiant des clients, car les communications côté serveur dans ce cas seraient distribuées sur plusieurs \textit{socket}.

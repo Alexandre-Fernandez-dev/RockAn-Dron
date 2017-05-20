@@ -1,9 +1,9 @@
-\subsection{Communications serveur-drone}
+\subsection{Communications serveur-drone}\label{impl}
 Pour établir les communications entre le serveur et le drone, nous nous sommes portés sur les API permettant de piloter notre drone à distance. Le drone étant un \textit{Parrot BEBOP 2} nous nous sommes penchés sur la SDK ARSDK fourni par le constructeur. Cette SDK étant en cours de développement, nous avons eu des difficultés a l'utiliser. Au premier abord, il semblait y avoir une version compatible avec Java, le langage de programmation utilisé aussi bien pour le serveur que pour le client.
 
-Cependant cette version de la SDK n'était destinée qu'à développer des applications mobiles android, nous avons du considéré les natives écrites en C à la place.
+Cependant cette version de la SDK n'était destinée qu'à développer des applications mobiles \android{}, nous avons du considérer l'API C à la place.
 
-Pour comprendre comment utiliser ces natives, nous avons étudié l'exemple fournit : la documentation étant trop pauvre pour suffire. Cet exemple permet de piloter un drone à distance à l'aide d'un ordinateur connecté en Wi-Fi et d'avoir un retour vidéo du drone. Comme la communication entre l'appareil manipulant le drone et celui-ci est en Wi-Fi, le serveur de jeu, et, par extension, les clients android devront être connecté au réseau sans fil du drone  pour pouvoir communiquer entre eux.
+Pour comprendre comment utiliser les primitives disponibles, nous avons étudié l'exemple fourni : la documentation étant trop pauvre pour suffire. Cet exemple permet de piloter un drone à distance à l'aide d'un ordinateur connecté en Wi-Fi et d'avoir un retour vidéo du drone. Comme la communication entre l'appareil manipulant le drone et celui-ci est en Wi-Fi, le serveur de jeu, et, par extension, les clients Android devront être connectés au réseau sans fil du drone  pour pouvoir communiquer entre eux.
 
 \paragraph{}
 Nous avons commencé par faire de courts programmes C permettant de nous connecter au drone et de le faire décoller puis avancer en ligne droite, reculer et répéter ces opérations plusieurs fois avant de se poser pour terminer. La principale difficulté pour cette partie de tests fut de trouver des moments de libre à la fac où le drone était disponible, cela nous a considérable ralenti dans notre développement.
@@ -17,8 +17,9 @@ Une autre possibilité serait de décider d'une fréquence pour déplacer le dro
 
 \begin{figure}[ht]
 \begin{center}
-\end{center}
+\includegraphics[scale=0.5]{images/partie.jpg}
 \caption{Schéma du déroulement d'une partie}
+\end{center}
 \end{figure}
 
 La dernière difficulté réside en les mouvements du drone qui sont imprécis risquant de le faire dévier à cause des facteurs extérieurs ou même des moteurs. Un \textit{callback} permet de vérifier l'orientation et l'inclinaison du drone, on pourrait donc après chaque commande de mouvement, corriger la direction en fonction des données recueillies par ce \textit{callback}.

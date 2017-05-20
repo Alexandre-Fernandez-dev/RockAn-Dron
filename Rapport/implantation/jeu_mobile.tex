@@ -1,12 +1,12 @@
 \subsection{Jeu mobile}
-Pour le jeu mobile, nous avons eu besoin de trouver une bibliothèque permettant de faire des jeux sous Android.
+Pour le jeu mobile, nous avons eu besoin de trouver une bibliothèque permettant de faire des jeux sous \android{}.
 
-Nous avons choisi \textit{libGDX} car elle nous a permis d'obtenir assez rapidement un résultat testable pour le jeu mobile. Cependant, cette bibliothèque est une bibliothèque multi-plateformes qui fonctionne avec un coeur compatible avec toutes les plateformes et un programme lançant le coeur pour chaque plateforme où l'on souhaite porter le jeu.
+Nous avons choisi \textit{libGDX} car elle nous a permis d'obtenir assez rapidement un résultat testable pour le jeu mobile. Cependant, cette bibliothèque est une bibliothèque multi-plateformes qui fonctionne avec un c\oe{}ur compatible avec toutes les plateformes et un programme lançant le coeur pour chaque plateforme où l'on souhaite porter le jeu.
 
 \paragraph{}
 Le jeu fonctionne grâce à une méthode \verb!loop! qui prend en argument le temps qui s'est écoulé depuis le dernier appel à cette fonction. Le jeu étant assez simple, cette fonction s'occupe des entrées utilisateurs, de la mise à jour de l'état du jeu et des affichages.
 
-Cette architecture s'adapte particulièrement bien à un jeu pour un joueur disponible sur plusieurs plateformes. En effet, le lanceur \textit{Android} s'occupe dans notre cas de toutes les communications, mais pour assurer des communications entre le lanceur et le jeu, il a fallu définir deux interfaces de communications :
+Cette architecture s'adapte particulièrement bien à un jeu pour un joueur disponible sur plusieurs plateformes. En effet, le lanceur \android{} s'occupe dans notre cas de toutes les communications, mais pour assurer des communications entre le lanceur et le jeu, il a fallu définir deux interfaces de communications :
 \begin{itemize}
 \item Une pour permettre au jeu de notifier les changements de score au lanceur
 \item Une pour permettre au lanceur de notifier au jeu une fin de partie et le nom du vainqueur
