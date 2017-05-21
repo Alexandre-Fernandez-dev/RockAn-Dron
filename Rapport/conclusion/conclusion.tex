@@ -8,19 +8,8 @@ Ce projet riche en terme de technologies utilisées, comme on a pu le montrer da
 
 La programmation mobile \android{} était pour nous une première expérience; la lecture et compréhension de code libre étaient aussi des éléments clés pour la partie pilotage de drone. On peut aussi relever des compétences annexes très utiles pour ce projet qui sont : l'utilisation d'un gestionnaire de version\footnote{\url{https://github.com/LexTek/RockAn-Dron}} et le langage de programmation \LaTeX pour la rédaction de ce rapport.
 
-\begin{center}
-\begin{tabular}{|l|c|}
-\hline
-\textbf{Module} & \textbf{Nombre de lignes de code} \\
-\hline
-Serveur Java & $\approx 1000$ \\
-\hline
-Client Android & $\approx 1400$ \\
-\hline
-Pilotage du drone & $\approx 1200$ \\
-\hline
-\end{tabular}
-\end{center}
+\paragraph{}
+L'ensemble du projet peut être décomposé en 3 modules principaux qui sont le serveur et le client écrits en Java, faisant respectivement environ 1000 et 1400 lignes de code, ainsi que le programme de pilotage du drone écrit en C faisant environ 1200 lignes de code.
 
 \paragraph{}
 En l'état actuel, comme la section \ref{impl} l'a souligné, le serveur de jeu n'est pas encore capable d'envoyer des instructions au drone en fonction du score des joueurs. En réalité, le programme de pilotage est séparé du serveur puisqu'on nous avons dû l'écrire en C. L'idée serait alors de mettre en place une communication supplémentaire qui soit locale à la machine entre le serveur et le \og programme pilote \fg{}.
