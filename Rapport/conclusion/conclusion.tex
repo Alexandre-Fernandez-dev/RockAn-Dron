@@ -1,4 +1,25 @@
 \newpage
 \section{Conclusion}
 
-Au terme de ce projet STL, il apparaît que nous avons su répondre par l'affirmatif aux besoins demandés par le sujet : à savoir la possibilité de piloter le drone.
+Au terme de ce projet STL, il apparaît que nous avons su correctement répondre aux besoins du sujet : la possibilité de créer son propre programme de pilotage du drone.
+
+\paragraph{}
+Ce projet riche en terme de technologies utilisées, comme on a pu le montrer dans ce rapport, a exigé de nous une certaine polyvalence. Cela nous a valu un bon approfondissement de nos connaissances ou même apprentissage de nouvelles notions qui sont aujourd'hui très récentes : le marché des drones commerciales est, en effet, nouveau et en pleine expansion. 
+
+La programmation mobile \android{} était pour nous une première expérience; la lecture et compréhension de code libre étaient aussi des éléments clés pour la partie pilotage de drone. On peut aussi relever des compétences annexes très utiles pour ce projet qui sont : l'utilisation d'un gestionnaire de version\footnote{\url{https://github.com/LexTek/RockAn-Dron}} et le langage de programmation \LaTeX pour la rédaction de ce rapport.
+
+\paragraph{}
+Quelques pistes de poursuite ont été proposées pour le projet maintenant que les bases ont été posées :
+\begin{itemize}
+\item le jeu mobile est fonctionnel est jouable à plusieurs personnes
+\item les différentes communications serveur-clients et serveur-drone sont opérationnelles
+\item le pilotage du drone par l'envoi d'instructions est possible
+\end{itemize}
+\paragraph{}
+En l'état actuel, comme la section \ref{impl} l'a souligné, le serveur de jeu n'est pas encore capable d'envoyer des instructions au drone en fonction du score des joueurs. En réalité, le programme de pilotage est séparé du serveur puisqu'on nous avons dû l'écrire en C. L'idée serait alors de mettre en place une communication supplémentaire qui soit locale à la machine entre le serveur et le \og programme pilote \fg{}.
+
+Une autre question se pose sur la manière dont le drone doit être piloté au cours d'une partie. Le problème étant que le drone pourrait avoir à se déplacer sur des distances imprévisibles. Et si les mènent la partie à tour de rôle, le drone ferait des allers- retours fréquents. Une solution serait de décider d'une fréquence, par exemple toutes les 10 secondes, pour déplacer le drone dans la direction du joueur en tête.
+
+Enfin, le dernier problème est que les mouvements du drone sont imprécis et qu'il n'est pas stable. Celui-ci risque de dévier à cause de facteurs extérieurs ou moteurs. Un \textit{callback}\footnote{Fonction de rappel} envoyé à intervalles réguliers par le drone permet de vérifier l'orientation et l'inclinaison du drone, si bien qu'une première possibilité serait, qu'après chaque commande de mouvement il est possible de corriger l'orientation et la direction du drone en fonction des données recueillies.
+
+Une autre possibilité serait de se servir des coordonnées GPS mais celles-ci sont trop imprécises sur de courtes distances. Croiser des facteurs tels que les retours moteurs, la puissance du signal Wi-Fi entre les appareils et le drone et les coordonnées GPS pourraient s'avérer utiles pour obtenir une approximation de la position et des mouvements du drone.
