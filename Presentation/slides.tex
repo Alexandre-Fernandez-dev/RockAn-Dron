@@ -1,15 +1,25 @@
-\documentclass{beamer}
+\documentclass[xcolor={dvipsnames}, handout]{beamer}
 
 \input{preamble/preamble}
 
-\usetheme{Warsaw}
-
 \title{\textit{RockAn’Dron}}
 \author{A.FERNANDEZ \& S.UNG}
-\institute{Projet STL}
+\institute{Projet STL
+
+encadré par V.BOTBOL \& G.ZIAT}
 \date{\today}
 
 \begin{document}
+\AtBeginSection{\frame{\sectionpage}}
+\setbeamertemplate{section page}
+{
+  \begin{centering}
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=4pt,center]{part title}
+      \usebeamerfont{section title}\insertsection\par
+    \end{beamercolorbox}
+  \end{centering}
+}
 
 \begin{frame}
 \titlepage
@@ -26,7 +36,6 @@
 
 \input{introduction/introduction}
 \input{conception/conception}
-\input{implantation/implantation}
 \input{conclusion/conclusion}
 
 \end{document}

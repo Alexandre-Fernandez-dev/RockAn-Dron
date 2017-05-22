@@ -1,59 +1,76 @@
 \section{Conception}
 
-\subsection{Jeu mobile}
-\begin{frame}
-\frametitle{Jeu mobile}
-\begin{center}
-Jeu de rythme
-
-(Règles du jeu)
-\begin{figure}
-\includegraphics[scale=0.2]{images/jeu3.jpg}
-\end{figure}
-\end{center}
-\end{frame}
-
-\begin{frame}
-\begin{center}
-Technologie d'analyse musicale abandonnée (trop complexe + hors sujet)
-\end{center}
-\end{frame}
-
-
-\subsection{Réseau de communication}
 \begin{frame}
 \frametitle{Réseau de communication}
 \begin{center}
 \begin{figure}
-\includegraphics[scale=0.4]{images/architecture.jpg}
+\includegraphics[scale=0.45]{images/architecture.jpg}
 \end{figure}
 \end{center}
 \end{frame}
 
-\subsection{Communication Client-Serveur}
 \begin{frame}
-\frametitle{Communication Client-Serveur}
-\begin{center}
-Centralisation des joueurs
+\frametitle{Jeu mobile}
+\begin{multicols}{2} 
+\begin{itemize}
+\item Jeu de rythme
+\item Programme simple ($\approx 1$ semaine)
+\item Inspiré de \textit{Guitar Hero}
+\item 4 zones actives
+\item Toucher les notes en rythme
+\item Fenêtre de temps pour valider les points
+\end{itemize} 
+\columnbreak 
+\begin{figure}
+\includegraphics[scale=0.4]{images/jeu3.jpg}
+\end{figure}
+\end{multicols}
+\end{frame}
 
-(mise en place d'un protocole de communication)
+\begin{frame}
+\frametitle{Serveur et protocole de communication}
+\begin{center}
+\begin{itemize}
+\item Protocole de communication textuel
+\begin{enumerate}
+\item Connexion 
+\item Initialisation et lancement de la partie
+\item Envoi périodique des scores
+\end{enumerate}
+\item Protocole UDP vs TCP
+\item Attente des joueurs dans un salon ou \textit{lobby}
+\item Mise en place en $\approx 1-2$ semaine(s)
+\end{itemize}
 \end{center}
 \end{frame}
 
-\subsection{Communication Serveur-Drone}
 \begin{frame}
-\frametitle{Communication Serveur-Drone}
+\frametitle{Drone et ARSDK}
 \begin{center}
-Point crucial du projet
-
-Utilisation de l'ARSDK pour établir la communication
+\begin{itemize}
+\item Analyse et exploitation de la SDK (ARSDK Parrot)
+\item Programme C
+\item Mouvements opérationnels
+\item Composant inachevé \dots
+\end{itemize}
+\begin{exampleblock}{Exemples de primitives}
+{\tiny\verb!deviceController->aRDrone3->sendPilotingTakeOff(deviceController->aRDrone3);!
+\verb!deviceController->aRDrone3->setPilotingPCMDFlag(deviceController->aRDrone3, 1);!
+\verb!deviceController->aRDrone3->setPilotingPCMDPitch(deviceController->aRDrone3, 50);!}
+\end{exampleblock}
 \end{center}
 \end{frame}
 
-\subsection{Tests pratiques}
 \begin{frame}
-\frametitle{Tests pratiques}
+\frametitle{Limitations et difficultés rencontrées}
 \begin{center}
-Conditions de test
+\begin{itemize}
+\item Problème du réseau Wi-Fi
+\item Faiblesses du protocole UDP
+\end{itemize}
+\begin{itemize}
+\item Conditions de tests délicates
+\item Gestion propre de la position du drone complexe
+\end{itemize}
 \end{center}
 \end{frame}
