@@ -1,0 +1,35 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{lmodern}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{pgfplots}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{csquotes}
+\usepackage{mathabx}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\pgfplotsset{compat=1.14}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\cfoot{}
+
+\usepackage{afterpage}
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage
+}
+
+\setlength{\headheight}{13.0pt}
+
+\newcommand{\android}{\textit{Android}}
