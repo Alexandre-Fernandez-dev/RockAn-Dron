@@ -14,7 +14,7 @@
 \begin{multicols}{2} 
 \begin{itemize}
 \item Jeu de rythme
-\item Programme simple ($\approx 1$ semaine)
+\item Prototype du client sous forme d'une application \android{}
 \item 4 zones actives
 \item Attente des joueurs dans un salon
 \end{itemize} 
@@ -37,6 +37,9 @@
 \end{enumerate}
 \item Protocole UDP vs TCP
 \end{itemize}
+\begin{figure}
+\includegraphics[scale=0.05]{images/client_serveur.jpg}
+\end{figure}
 \end{center}
 \end{frame}
 
@@ -45,12 +48,16 @@
 \begin{center}
 \begin{itemize}
 \item Analyse et exploitation de la SDK (ARSDK Parrot)
-\item Programme C
+\item Utilisation de l'API C du SDK
 \item Mouvements opérationnels
 \end{itemize}
 \begin{exampleblock}{Exemples de primitives}
-{\tiny\verb!deviceController->aRDrone3->sendPilotingTakeOff(deviceController->aRDrone3);!
-\verb!deviceController->aRDrone3->setPilotingPCMDFlag(deviceController->aRDrone3, 1);!
+{\tiny
+\verb!//Décollage! \newline
+\verb!deviceController->aRDrone3->sendPilotingTakeOff(deviceController->aRDrone3);! \newline
+\verb!//Prise de photo! \newline
+\verb!deviceController->aRDrone3->sendMediaRecordPicture(deviceController->aRDrone3, 0);! \newline
+\verb!//Angle du drone! \newline
 \verb!deviceController->aRDrone3->setPilotingPCMDPitch(deviceController->aRDrone3, 50);!}
 \end{exampleblock}
 \end{center}
@@ -61,7 +68,15 @@
 \begin{center}
 \begin{itemize}
 \item Conditions de tests délicates
+\begin{itemize}
+\item Disponibilité du drone
+\item Sécurité
+\end{itemize}
 \item Gestion propre de la position du drone complexe
+\begin{itemize}
+\item Facteurs extérieurs
+\item Limites matérielles
+\end{itemize}
 \end{itemize}
 \end{center}
 \end{frame}
