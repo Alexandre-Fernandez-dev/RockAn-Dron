@@ -30,11 +30,12 @@
 \begin{center}
 \begin{itemize}
 \item Protocole de communication textuel
-\begin{enumerate}
+\begin{itemize}
 \item Connexion 
 \item Initialisation et lancement de la partie
 \item Envoi périodique des scores
-\end{enumerate}
+\item \dots
+\end{itemize}
 \item Protocole UDP vs TCP
 \end{itemize}
 \begin{figure}
@@ -57,7 +58,7 @@
 \verb!deviceController->aRDrone3->sendPilotingTakeOff(deviceController->aRDrone3);! \newline
 \verb!//Prise de photo! \newline
 \verb!deviceController->aRDrone3->sendMediaRecordPicture(deviceController->aRDrone3, 0);! \newline
-\verb!//Angle du drone! \newline
+\verb!//Angle du drone (avancer/reculer)! \newline
 \verb!deviceController->aRDrone3->setPilotingPCMDPitch(deviceController->aRDrone3, 50);!}
 \end{exampleblock}
 \end{center}
@@ -66,17 +67,18 @@
 \begin{frame}
 \frametitle{Limitations et difficultés rencontrées}
 \begin{center}
-\begin{itemize}
-\item Conditions de tests délicates
+\begin{alertblock}{Conditions de tests délicates}
 \begin{itemize}
 \item Disponibilité du drone
 \item Sécurité
+\item Autonomie
 \end{itemize}
-\item Gestion propre de la position du drone complexe
+\end{alertblock}
+\begin{alertblock}{Gestion propre de la position du drone complexe}
 \begin{itemize}
 \item Facteurs extérieurs
 \item Limites matérielles
 \end{itemize}
-\end{itemize}
+\end{alertblock}
 \end{center}
 \end{frame}
